@@ -1,8 +1,10 @@
-Revise keymappings
-Inlay hints and remove Rust-Tools
-Setup Debugging
-Setup Testing
-Remove LspSaga
+# Todo
+- Revise keymappings
+- Inlay hints and remove Rust-Tools
+- Setup Debugging
+- Setup Testing
+- Remove LspSaga
 
-Use netrw
-Harpoon
+# Review
+- Use netrw
+- Harpoon
