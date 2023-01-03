@@ -4,13 +4,15 @@ if (not status) then return end
 lualine.setup {
   options = {
     icons_enabled = true,
-    -- theme = 'embark',
-    section_separators = { left = '', right = '' },
-    component_separators = { left = '', right = '' },
+    -- theme = 'tokyonight',
+    -- section_separators = { left = '', right = '' },
+    -- component_separators = { left = '', right = '' },
+    section_separators = { left = '', right = '' },
+    component_separators = '|',
     disabled_filetypes = {}
   },
   sections = {
-    lualine_a = { 'mode' },
+    lualine_a = { { 'mode', separator = { left = '' }, right_padding = 2 } },
     lualine_b = { 'branch' },
     lualine_c = { {
       'filename',
@@ -18,11 +20,12 @@ lualine.setup {
       path = 0 -- 0 = just filename, 1 = relative path, 2 = absolute path
     } },
     lualine_x = {
-      { 'diagnostics', sources = { "nvim_diagnostic" }, symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' } },
+      { 'diagnostics', sources = { "nvim_diagnostic" },
+        symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' } },
       'filetype'
     },
     lualine_y = { 'progress' },
-    lualine_z = { 'location' }
+    lualine_z = { { 'location', separator = { right = '' }, left_padding = 2 }, }
   },
   inactive_sections = {
     lualine_a = {},

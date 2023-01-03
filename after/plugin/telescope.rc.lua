@@ -3,11 +3,34 @@ if (not status) then return end
 local actions = require('telescope.actions')
 local builtin = require("telescope.builtin")
 
-local function telescope_buffer_dir()
-  return vim.fn.expand('%:p:h')
+local function get_pickers(actions)
+  return {
+    find_files = {
+      theme = "dropdown",
+      hidden = true,
+      previewer = false,
+    },
+    buffers = {
+      theme = "dropdown",
+      previewer = false,
+      initial_mode = "normal",
+      mappings = {
+        i = {
+          ["<C-d>"] = actions.delete_buffer,
+        },
+        n = {
+          ["dd"] = actions.delete_buffer,
+        },
+      },
+    },
+    git_files = {
+      theme = "dropdown",
+      hidden = true,
+      previewer = false,
+      show_untracked = true,
+    },
+  }
 end
-
-local fb_actions = require "telescope".extensions.file_browser.actions
 
 telescope.setup {
   defaults = {
@@ -16,32 +39,13 @@ telescope.setup {
         ["q"] = actions.close
       },
     },
+    pickers = get_pickers(actions),
     file_ignore_patterns = { "^.git", "^obj", "^bin", "^node_modules", "^.next", "^.idea", "^.vscode" },
   },
-  extensions = {
-    -- file_browser = {
-    --   theme = "dropdown",
-    --   -- disables netrw and use telescope-file-browser in its place
-    --   hijack_netrw = true,
-    --   mappings = {
-    --     -- your custom insert mode mappings
-    --     ["i"] = {
-    --       ["<C-w>"] = function() vim.cmd('normal vbd') end,
-    --     },
-    --     ["n"] = {
-    --       -- your custom normal mode mappings
-    --       ["N"] = fb_actions.create,
-    --       ["h"] = fb_actions.goto_parent_dir,
-    --       ["/"] = function()
-    --         vim.cmd('startinsert')
-    --       end
-    --     },
-    --   },
-    -- },
-  },
+  pickers = get_pickers(actions),
+  extensions = {},
 }
 
-telescope.load_extension("file_browser")
 telescope.load_extension("fzf")
 
 vim.keymap.set('n', '<leader>f',

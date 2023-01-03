@@ -3,6 +3,8 @@
 local status, nvim_lsp = pcall(require, "lspconfig")
 if (not status) then return end
 
+-- local ih = require("inlay-hints")
+
 local protocol = require('vim.lsp.protocol')
 
 local augroup_format = vim.api.nvim_create_augroup("Format", { clear = true })
@@ -30,18 +32,16 @@ local on_attach = function(client, bufnr)
   local opts = { noremap = true, silent = true }
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gt', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', 'gT', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('i', '<C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<C-h>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 end
 
 protocol.CompletionItemKind = {
   '', -- Text
-  '', -- Method
-  '', -- Function
-  '', -- Constructor
+  'ﬦ', -- Method
+  'ﬦ', -- Function
+  'ﬦ', -- Constructor
   '', -- Field
   '', -- Variable
   '', -- Class
@@ -61,7 +61,7 @@ protocol.CompletionItemKind = {
   '', -- Constant
   '', -- Struct
   '', -- Event
-  'ﬦ', -- Operator
+  '', -- Operator
   '', -- TypeParameter
 }
 
@@ -123,7 +123,12 @@ nvim_lsp.omnisharp.setup {
   cmd = { "dotnet", "C:\\Users\\bb11379\\AppData\\Local\\nvim-data\\mason\\packages\\omnisharp\\OmniSharp.dll" },
 }
 
--- nvim_lsp.rust_analyzer.setup{
+nvim_lsp.hls.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
+
+-- nvim_lsp.rust_analyzer.setup {
 --   on_attach = on_attach,
 --   capabilities = capabilities,
 --   cmd = { "rustup", "run", "nightly", "rust-analyzer" },

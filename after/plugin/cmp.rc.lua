@@ -4,15 +4,10 @@ if (not status) then return end
 local lspkind = require 'lspkind'
 local luasnip = require("luasnip")
 
-local has_words_before = function()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
 cmp.setup({
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
+      luasnip.lsp_expand(args.body)
     end,
   },
   mapping = cmp.mapping.preset.insert({
@@ -45,14 +40,16 @@ cmp.setup({
   },
 })
 
-vim.cmd [[
-  set completeopt=menuone,noinsert,noselect
 
-  imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
-  inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
-  snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
-  snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
-]]
+
+--vim.cmd [[
+--  set completeopt=menuone,noinsert,noselect
+--
+--  imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
+--  inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+--  snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+--  snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+--]]
 
 -- " Use <Tab> and <S-Tab> to navigate through popup menu
 -- inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
