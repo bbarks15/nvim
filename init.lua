@@ -10,6 +10,8 @@ require('brandon.highlights')
 require('brandon.maps')
 require('brandon.plugins')
 
+-- vim.cmd('colo duskfox')
+
 local has = vim.fn.has
 local is_mac = has "macunix"
 local is_win = has "win32"
@@ -28,25 +30,17 @@ local BrandonGroup = augroup('Brandon', {})
 local autocmd = vim.api.nvim_create_autocmd
 
 autocmd('TextYankPost', {
-    group = yank_group,
-    pattern = '*',
-    callback = function()
-        vim.highlight.on_yank({
-            higroup = 'IncSearch',
-            timeout = 100,
-        })
-    end,
+  group = yank_group,
+  pattern = '*',
+  callback = function()
+    vim.highlight.on_yank({
+      higroup = 'IncSearch',
+      timeout = 100,
+    })
+  end,
 })
 
--- autocmd({"BufEnter", "BufWinEnter", "TabEnter"}, {
---     group = BrandonGroup,
---     pattern = "*.rs",
---     callback = function()
---         require("lsp_extensions").inlay_hints{}
---     end
--- })
-
-autocmd({"BufWritePre"}, {
+autocmd({ "BufWritePre" }, {
   group = BrandonGroup,
   pattern = "*",
   command = "%s/\\s\\+$//e",

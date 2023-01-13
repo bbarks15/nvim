@@ -1,6 +1,8 @@
 local status, lspkind = pcall(require, "lspkind")
 if (not status) then return end
 
+icons = require('brandon.icons')
+
 lspkind.init({
   -- enables text annotations
   --
@@ -17,31 +19,32 @@ lspkind.init({
   -- override preset symbols
   --
   -- default: {}
-  symbol_map = {
-    Text = "",
-    Method = "",
-    Function = "",
-    Constructor = "",
-    Field = "ﰠ",
-    Variable = "",
-    Class = "ﴯ",
-    Interface = "",
-    Module = "",
-    Property = "ﰠ",
-    Unit = "塞",
-    Value = "",
-    Enum = "",
-    Keyword = "",
-    Snippet = "",
-    Color = "",
-    File = "",
-    Reference = "",
-    Folder = "",
-    EnumMember = "",
-    Constant = "",
-    Struct = "פּ",
-    Event = "",
-    Operator = "",
-    TypeParameter = ""
-  },
+  -- symbol_map = {
+  --   Text = "",
+  --   Method = "",
+  --   Function = "",
+  --   Constructor = "",
+  --   Field = "ﰠ",
+  --   Variable = "",
+  --   Class = "ﴯ",
+  --   Interface = "",
+  --   Module = "",
+  --   Property = "ﰠ",
+  --   Unit = "塞",
+  --   Value = "",
+  --   Enum = "",
+  --   Keyword = "",
+  --   Snippet = "",
+  --   Color = "",
+  --   File = "",
+  --   Reference = "",
+  --   Folder = "",
+  --   EnumMember = "",
+  --   Constant = "",
+  --   Struct = "פּ",
+  --   Event = "",
+  --   Operator = "",
+  --   TypeParameter = ""
+  -- },
+  symbol_map = icons.kind
 })

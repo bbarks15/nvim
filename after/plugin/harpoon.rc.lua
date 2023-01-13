@@ -12,7 +12,11 @@ end
 nmap { "<leader>m", require("harpoon.mark").add_file }
 nmap { "<C-e>", require("harpoon.ui").toggle_quick_menu }
 
-vim.keymap.set("n", "<leader>h", function() require("harpoon.ui").nav_file(1) end)
-vim.keymap.set("n", "<leader>j", function() require("harpoon.ui").nav_file(2) end)
-vim.keymap.set("n", "<leader>k", function() require("harpoon.ui").nav_file(3) end)
-vim.keymap.set("n", "<leader>l", function() require("harpoon.ui").nav_file(4) end)
+nmap { "<leader>h", function() require("harpoon.ui").nav_file(1) end }
+nmap { "<leader>j", function() require("harpoon.ui").nav_file(2) end }
+nmap { "<leader>k", function() require("harpoon.ui").nav_file(3) end }
+nmap { "<leader>l", function() require("harpoon.ui").nav_file(4) end }
+
+for i = 1, 9 do
+  vim.keymap.set("n", string.format("<leader>%s", i), function() require("harpoon.ui").nav_file(i) end)
+end

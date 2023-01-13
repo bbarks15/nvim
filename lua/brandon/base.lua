@@ -10,7 +10,7 @@ vim.opt.smartindent = true
 vim.opt.backup = false
 vim.opt.showcmd = true
 vim.opt.cmdheight = 1
-vim.opt.shell = 'fish'
+-- vim.opt.shell = 'fish'
 vim.opt.backupskip = { '/tmp/*', '/private/tmp/*' }
 vim.opt.inccommand = 'split'
 vim.opt.smarttab = true
@@ -51,7 +51,5 @@ vim.cmd([[let &t_Cs = "\e[4:3m"]])
 vim.cmd([[let &t_Ce = "\e[4:0m"]])
 
 vim.cmd([[let &fcs="eob: "]])
-
-vim.cmd('colo embark')
 
 vim.cmd('autocmd Filetype cs setlocal tabstop=4 shiftwidth=4')

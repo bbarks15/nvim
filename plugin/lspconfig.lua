@@ -3,67 +3,33 @@
 local status, nvim_lsp = pcall(require, "lspconfig")
 if (not status) then return end
 
--- local ih = require("inlay-hints")
-
 local protocol = require('vim.lsp.protocol')
-
-local augroup_format = vim.api.nvim_create_augroup("Format", { clear = true })
-local enable_format_on_save = function(_, bufnr)
-  vim.api.nvim_clear_autocmds({ group = augroup_format, buffer = bufnr })
-  vim.api.nvim_create_autocmd("BufWritePre", {
-    group = augroup_format,
-    buffer = bufnr,
-    callback = function()
-      vim.lsp.buf.format({ bufnr = bufnr })
-    end,
-  })
-end
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
-  --Enable completion triggered by <c-x><c-o>
-  --local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-  --buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
   -- Mappings.
   local opts = { noremap = true, silent = true }
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gT', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-end
+  buf_set_keymap('n', 'K', "<Cmd>lua vim.lsp.buf.hover() <CR>", opts)
+  buf_set_keymap('n', 'gT', "<Cmd>lua vim.lsp.buf.type_definition() <CR>", opts)
+  buf_set_keymap('n', 'gd', "<Cmd>lua vim.lsp.buf.definition() <CR>", opts)
+  buf_set_keymap('n', 'gD', "<Cmd>lua vim.lsp.buf.declaration() <CR>", opts)
+  buf_set_keymap('n', 'gi', "<Cmd>lua vim.lsp.buf.implementation() <CR>", opts)
+  buf_set_keymap("n", "gr", "<Cmd>lua vim.lsp.buf.references() <CR>", opts)
+  buf_set_keymap('n', '<leader>cs', "<Cmd>lua vim.lsp.buf.signature_help() <CR>", opts)
+  buf_set_keymap("n", "<leader>ca", "<Cmd>lua vim.lsp.buf.code_action() <CR>", opts)
+  buf_set_keymap("n", "<leader>cr", "<Cmd>lua vim.lsp.buf.rename() <CR>", opts)
+  buf_set_keymap('n', '<leader>f', "<Cmd>lua vim.lsp.buf.format() <CR>", opts)
 
-protocol.CompletionItemKind = {
-  '', -- Text
-  'ﬦ', -- Method
-  'ﬦ', -- Function
-  'ﬦ', -- Constructor
-  '', -- Field
-  '', -- Variable
-  '', -- Class
-  'ﰮ', -- Interface
-  '', -- Module
-  '', -- Property
-  '', -- Unit
-  '', -- Value
-  '', -- Enum
-  '', -- Keyword
-  '﬌', -- Snippet
-  '', -- Color
-  '', -- File
-  '', -- Reference
-  '', -- Folder
-  '', -- EnumMember
-  '', -- Constant
-  '', -- Struct
-  '', -- Event
-  '', -- Operator
-  '', -- TypeParameter
-}
+  buf_set_keymap('n', '[d', "<Cmd>lua vim.diagnostic.goto_next() <CR>", opts)
+  buf_set_keymap('n', ']d', "<Cmd>lua vim.diagnostic.goto_next() <CR>", opts)
+  buf_set_keymap('n', '<leader>vd', "<Cmd>lua vim.diagnostic.open_float()() <CR>", opts)
+
+end
 
 -- Set up completion using nvim_cmp with LSP source
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -79,7 +45,6 @@ nvim_lsp.sumneko_lua.setup {
   capabilities = capabilities,
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
-    enable_format_on_save(client, bufnr)
   end,
   settings = {
     Lua = {
@@ -112,15 +77,11 @@ nvim_lsp.cssls.setup {
   capabilities = capabilities
 }
 
-nvim_lsp.emmet_ls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities
-}
-
 nvim_lsp.omnisharp.setup {
   on_attach = on_attach,
   capabilities = capabilities,
   cmd = { "dotnet", "C:\\Users\\bb11379\\AppData\\Local\\nvim-data\\mason\\packages\\omnisharp\\OmniSharp.dll" },
+  -- cmd = { "/home/brandon/.local/share/nvim/mason/bin/omnisharp" },
 }
 
 nvim_lsp.hls.setup {
@@ -150,8 +111,24 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 }
 )
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+  vim.lsp.handlers.hover, { border = "single" }
+)
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+  vim.lsp.handlers.signature_help, { border = "single" }
+)
+
+local icons = require('brandon.icons')
+
 -- Diagnostic symbols in the sign column (gutter)
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+local signs = {
+  Error = icons.diagnostics.Error,
+  Warn = icons.diagnostics.Warning,
+  Hint = icons.diagnostics.Hint,
+  Info = icons.diagnostics.Information
+}
+
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })

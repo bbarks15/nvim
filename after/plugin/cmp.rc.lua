@@ -1,8 +1,9 @@
 local status, cmp = pcall(require, "cmp")
 if (not status) then return end
 
-local lspkind = require 'lspkind'
+local lspkind = require('lspkind')
 local luasnip = require("luasnip")
+
 
 cmp.setup({
   snippet = {
@@ -27,30 +28,23 @@ cmp.setup({
         return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= 'Text'
       end
     },
-    -- { name = 'buffer' },
     { name = 'luasnip' },
     { name = 'nvim_lsp_signature_help' }
   }),
   formatting = {
-    format = lspkind.cmp_format({ mode = 'symbol_text', maxwidth = 50 })
+    fields = { "kind", "abbr", "menu" },
+    format = function(entry, vim_item)
+      local kind = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
+      local strings = vim.split(kind.kind, "%s", { trimempty = true })
+
+      kind.kind = (strings[1] or "")
+      kind.menu = "(" .. (strings[2] or "") .. ")"
+
+      return kind
+    end,
   },
   window = {
     completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
   },
 })
-
-
-
---vim.cmd [[
---  set completeopt=menuone,noinsert,noselect
---
---  imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
---  inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
---  snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
---  snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
---]]
-
--- " Use <Tab> and <S-Tab> to navigate through popup menu
--- inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
--- inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"

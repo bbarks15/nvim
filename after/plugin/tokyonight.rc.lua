@@ -4,3 +4,5 @@ if (not status) then return end
 tokyo.setup({
   style = "night"
 })
+
+vim.cmd('colo tokyonight')
