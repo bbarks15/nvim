@@ -5,15 +5,9 @@
 - Revise keymappings
 - Inlay hints and remove Rust-Tools
 
-
 - Setup Debugging
 
-
-
-- Remove LspSaga
-  - will need preview
-
-- Telescope look nicer
+- Telescope look nicer (icons)
 
 - Improve lualine
 - Learn bufferline

@@ -1,8 +1,3 @@
--- Things to add
--- Snippets (might need some irorning out. will test through thorough usage)
--- emmet (testing)
--- Refactoring
-
 require('impatient')
 
 require('brandon.base')

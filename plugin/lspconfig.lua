@@ -1,9 +1,8 @@
---vim.lsp.set_log_level("debug")
-
 local status, nvim_lsp = pcall(require, "lspconfig")
 if (not status) then return end
 
-local protocol = require('vim.lsp.protocol')
+local status_rt, rt = pcall(require, "rust-tools")
+if (not status_rt) then return end
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -27,7 +26,7 @@ local on_attach = function(client, bufnr)
 
   buf_set_keymap('n', '[d', "<Cmd>lua vim.diagnostic.goto_next() <CR>", opts)
   buf_set_keymap('n', ']d', "<Cmd>lua vim.diagnostic.goto_next() <CR>", opts)
-  buf_set_keymap('n', '<leader>vd', "<Cmd>lua vim.diagnostic.open_float()() <CR>", opts)
+  buf_set_keymap('n', '<leader>vd', "<Cmd>lua vim.diagnostic.open_float() <CR>", opts)
 
 end
 
@@ -88,6 +87,21 @@ nvim_lsp.hls.setup {
   on_attach = on_attach,
   capabilities = capabilities,
 }
+
+rt.setup({
+  tools = { inlay_hints = {}, },
+  server = {
+    on_attach = on_attach ,
+    cmd = { "rustup", "run", "nightly", "rust-analyzer" },
+    settings = {
+      ["rust-analyzer"] = {
+        checkOnSave = {
+          command = "clippy"
+        }
+      }
+    }
+  }
+})
 
 -- nvim_lsp.rust_analyzer.setup {
 --   on_attach = on_attach,
