@@ -10,9 +10,6 @@ keymap.set('n', 'x', '"_x')
 keymap.set('n', '+', '<C-a>')
 keymap.set('n', '-', '<C-x>')
 
--- Select all
-keymap.set('n', '<leader>a', 'gg<S-v>G')
-
 -- Save
 keymap.set('n', '<C-s>', '<cmd>w<cr>')
 
@@ -32,8 +29,8 @@ keymap.set({'n','v'}, '<leader>d', '"_d')
 keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
-keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz")
+keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz")
 -- keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 -- keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 

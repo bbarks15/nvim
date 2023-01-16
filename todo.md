@@ -14,6 +14,13 @@
 - project.nvim
 - toggleterm.nvim
 
+- lazy.nvim
+- noice.nvim
+- neogit/fugitive
+- oil.nvim
+- barbecue
+
+
 # Review
 - symbols-outline.nvim
 - Neotest

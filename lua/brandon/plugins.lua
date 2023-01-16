@@ -19,7 +19,6 @@ packer.startup(function(use)
   use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
-  use 'simrat39/rust-tools.nvim'
   use 'simrat39/inlay-hints.nvim'
   use 'simrat39/symbols-outline.nvim'
   use 'j-hui/fidget.nvim'
@@ -64,6 +63,7 @@ packer.startup(function(use)
 
   use { 'embark-theme/vim', as = 'embark' }
   use { 'rose-pine/neovim', as = 'rose-pine' }
+  use { "catppuccin/nvim", as = "catppuccin" }
   use 'rebelot/kanagawa.nvim'
   use 'folke/tokyonight.nvim'
   use "EdenEast/nightfox.nvim"
