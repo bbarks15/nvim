@@ -1,16 +1,12 @@
 # Todo
 - snippet behaviour
-
 - make sick custom snippets
+
 - Revise keymappings
-- Inlay hints and remove Rust-Tools
 
 - Setup Debugging
 
-- Telescope look nicer (icons)
-
 - Improve lualine
-- Learn bufferline
 - project.nvim
 - toggleterm.nvim
 
@@ -20,9 +16,9 @@
 - oil.nvim
 - barbecue
 
-
 # Review
 - symbols-outline.nvim
+- Inlay hints and remove Rust-Tools
 - Neotest
 - Use netrw
 - Harpoon
