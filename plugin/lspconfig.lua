@@ -1,10 +1,7 @@
-vim.lsp.set_log_level("debug")
+-- vim.lsp.set_log_level("debug")
 
 local status, nvim_lsp = pcall(require, "lspconfig")
 if (not status) then return end
-
-local status_rt, rt = pcall(require, "rust-tools")
-if (not status_rt) then return end
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -74,8 +71,8 @@ nvim_lsp.cssls.setup {
 nvim_lsp.omnisharp.setup {
   on_attach = on_attach,
   capabilities = capabilities,
-  enable_roslyn_analyzers = true,
   cmd = { "dotnet", "C:\\Users\\bb11379\\AppData\\Local\\nvim-data\\mason\\packages\\omnisharp\\OmniSharp.dll" },
+  -- enable_roslyn_analyzers = true,
   -- cmd = { "/home/brandon/.local/share/nvim/mason/bin/omnisharp" },
 }
 
