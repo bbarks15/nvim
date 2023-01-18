@@ -15,6 +15,7 @@
 - neogit/fugitive
 - oil.nvim
 - barbecue
+- Neogen
 
 # Review
 - symbols-outline.nvim

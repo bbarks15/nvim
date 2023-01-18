@@ -67,4 +67,8 @@ packer.startup(function(use)
   use 'rebelot/kanagawa.nvim'
   use 'folke/tokyonight.nvim'
   use "EdenEast/nightfox.nvim"
+  use {
+    "jesseleite/nvim-noirbuddy",
+    requires = { "tjdevries/colorbuddy.nvim", branch = "dev" }
+  }
 end)

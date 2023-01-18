@@ -16,7 +16,7 @@ null_ls.setup {
   debug = true,
   sources = {
     null_ls.builtins.formatting.prettierd,
-    -- null_ls.builtins.formatting.csharpier,
+    null_ls.builtins.formatting.csharpier,
     null_ls.builtins.formatting.rustfmt.with({
       extra_args = function(params)
         local Path = require("plenary.path")
