@@ -47,7 +47,7 @@ packer.startup(function(use)
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   use 'kyazdani42/nvim-web-devicons' -- File icons
-  use 'norcalli/nvim-colorizer.lua'
+  use 'NvChad/nvim-colorizer.lua'
   use 'goolord/alpha-nvim'
   use 'akinsho/bufferline.nvim'
   use 'lewis6991/gitsigns.nvim'

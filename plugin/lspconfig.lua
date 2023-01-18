@@ -82,10 +82,7 @@ nvim_lsp.hls.setup {
 }
 
 nvim_lsp.rust_analyzer.setup {
-  on_attach = function(c, b)
-    require("inlay-hints").on_attach(c, b)
-    on_attach(c, b)
-  end,
+  on_attach=on_attach,
   capabilities = capabilities,
   cmd = { "rustup", "run", "nightly", "rust-analyzer" },
   settings = {
