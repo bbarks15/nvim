@@ -4,7 +4,6 @@ if (not status) then return end
 local lspkind = require('lspkind')
 local luasnip = require("luasnip")
 
-
 cmp.setup({
   snippet = {
     expand = function(args)
