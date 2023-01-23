@@ -82,7 +82,7 @@ nvim_lsp.hls.setup {
 }
 
 nvim_lsp.rust_analyzer.setup {
-  on_attach=on_attach,
+  on_attach = on_attach,
   capabilities = capabilities,
   cmd = { "rustup", "run", "nightly", "rust-analyzer" },
   settings = {
@@ -95,7 +95,7 @@ nvim_lsp.rust_analyzer.setup {
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
   underline = true,
-  update_in_insert = false,
+  update_in_insert = true,
   virtual_text = { spacing = 4, prefix = "●" },
   severity_sort = true,
 }
