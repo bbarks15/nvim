@@ -51,6 +51,7 @@ packer.startup(function(use)
   use 'goolord/alpha-nvim'
   use 'akinsho/bufferline.nvim'
   use 'lewis6991/gitsigns.nvim'
+  use 'rcarriga/nvim-notify'
 
   use {
     'nvim-neotest/neotest',
