@@ -11,19 +11,27 @@ local on_attach = function(client, bufnr)
   -- Mappings.
   local opts = { noremap = true, silent = true }
 
+  local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
+  if filetype == "typescript" or filetype == "typescriptreact" or filetype == "typescript.tsx" then
+    buf_set_keymap('n', 'gd', "<Cmd>TypescriptGoToSourceDefinition <CR>", opts)
+  else
+    buf_set_keymap('n', 'gd', "<Cmd>lua vim.lsp.buf.definition() <CR>", opts)
+  end
+
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'K', "<Cmd>lua vim.lsp.buf.hover() <CR>", opts)
   buf_set_keymap('n', 'gT', "<Cmd>lua vim.lsp.buf.type_definition() <CR>", opts)
-  buf_set_keymap('n', 'gd', "<Cmd>lua vim.lsp.buf.definition() <CR>", opts)
   buf_set_keymap('n', 'gD', "<Cmd>lua vim.lsp.buf.declaration() <CR>", opts)
   buf_set_keymap('n', 'gi', "<Cmd>lua vim.lsp.buf.implementation() <CR>", opts)
   buf_set_keymap("n", "gr", "<Cmd>lua vim.lsp.buf.references() <CR>", opts)
   buf_set_keymap('n', '<leader>cs', "<Cmd>lua vim.lsp.buf.signature_help() <CR>", opts)
   buf_set_keymap("n", "<leader>cr", "<Cmd>lua vim.lsp.buf.rename() <CR>", opts)
   buf_set_keymap("n", "<leader>a", "<Cmd>lua vim.lsp.buf.code_action() <CR>", opts)
-  buf_set_keymap('n', '<leader>f', "<Cmd>lua vim.lsp.buf.format() <CR>", opts)
+  buf_set_keymap('n', '<leader>f',
+    "<Cmd>lua vim.lsp.buf.format({ filter = function(client) return client.name ~= 'tsserver' end }) <CR>"
+    , opts)
 
-  buf_set_keymap('n', '[d', "<Cmd>lua vim.diagnostic.goto_next() <CR>", opts)
+  buf_set_keymap('n', '[d', "<Cmd>lua vim.diagnostic.goto_prev() <CR>", opts)
   buf_set_keymap('n', ']d', "<Cmd>lua vim.diagnostic.goto_next() <CR>", opts)
   buf_set_keymap('n', '<leader>vd', "<Cmd>lua vim.diagnostic.open_float() <CR>", opts)
 
@@ -32,43 +40,67 @@ end
 -- Set up completion using nvim_cmp with LSP source
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local function filter(arr, fn)
-  if type(arr) ~= "table" then
-    return arr
-  end
+-- local function organize_imports()
+--   local params = {
+--     command = "_typescript.organizeImports",
+--     arguments = { vim.api.nvim_buf_get_name(0) },
+--     title = ""
+--   }
+--   vim.lsp.buf.execute_command(params)
+-- end
+--
+-- local function filter(arr, fn)
+--   if type(arr) ~= "table" then
+--     return arr
+--   end
+--
+--   local filtered = {}
+--   for k, v in pairs(arr) do
+--     if fn(v, k, arr) then
+--       table.insert(filtered, v)
+--     end
+--   end
+--
+--   return filtered
+-- end
+--
+-- local function filterReactDTS(value)
+--   return string.match(value.targetUri, '%.d.ts') == nil
+-- end
 
-  local filtered = {}
-  for k, v in pairs(arr) do
-    if fn(v, k, arr) then
-      table.insert(filtered, v)
-    end
-  end
+-- nvim_lsp.tsserver.setup {
+--   on_attach = on_attach,
+--   filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+--   cmd = { "typescript-language-server.cmd", "--stdio" },
+--   capabilities = capabilities,
+--   commands = {
+--     OrganizeImports = {
+--       organize_imports,
+--       description = "Organize Imports"
+--     }
+--   },
+--   handlers = {
+--     ['textDocument/definition'] = function(err, result, method, ...)
+--       if vim.tbl_islist(result) and #result > 1 then
+--         local filtered_result = filter(result, filterReactDTS)
+--         return vim.lsp.handlers['textDocument/definition'](err, filtered_result, method, ...)
+--       end
+--
+--       vim.lsp.handlers['textDocument/definition'](err, result, method, ...)
+--     end
+--   }
+-- }
+require("typescript").setup({
+  disable_commands = false,
+  debug = false,
+  go_to_source_definition = { fallback = true, },
+  server = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  },
+})
 
-  return filtered
-end
-
-local function filterReactDTS(value)
-  return string.match(value.targetUri, '%.d.ts') == nil
-end
-
-nvim_lsp.tsserver.setup {
-  on_attach = on_attach,
-  filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-  cmd = { "typescript-language-server.cmd", "--stdio" },
-  capabilities = capabilities,
-  handlers = {
-    ['textDocument/definition'] = function(err, result, method, ...)
-      if vim.tbl_islist(result) and #result > 1 then
-        local filtered_result = filter(result, filterReactDTS)
-        return vim.lsp.handlers['textDocument/definition'](err, filtered_result, method, ...)
-      end
-
-      vim.lsp.handlers['textDocument/definition'](err, result, method, ...)
-    end
-  }
-}
-
-nvim_lsp.sumneko_lua.setup {
+nvim_lsp.lua_ls.setup {
   capabilities = capabilities,
   on_attach = on_attach,
   settings = {
@@ -87,12 +119,17 @@ nvim_lsp.jsonls.setup {
   capabilities = capabilities
 }
 
-nvim_lsp.tailwindcss.setup {
+-- nvim_lsp.tailwindcss.setup {
+--   on_attach = on_attach,
+--   capabilities = capabilities
+-- }
+
+nvim_lsp.cssls.setup {
   on_attach = on_attach,
   capabilities = capabilities
 }
 
-nvim_lsp.cssls.setup {
+nvim_lsp.html.setup {
   on_attach = on_attach,
   capabilities = capabilities
 }

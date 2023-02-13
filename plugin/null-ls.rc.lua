@@ -13,7 +13,7 @@ local lsp_formatting = function(bufnr)
 end
 
 null_ls.setup {
-  debug = true,
+  debug = false,
   sources = {
     null_ls.builtins.formatting.prettierd,
     null_ls.builtins.formatting.csharpier,
@@ -40,11 +40,3 @@ null_ls.setup {
     null_ls.builtins.code_actions.eslint_d,
   },
 }
-
-vim.api.nvim_create_user_command(
-  'DisableLspFormatting',
-  function()
-    vim.api.nvim_clear_autocmds({ group = augroup, buffer = 0 })
-  end,
-  { nargs = 0 }
-)

@@ -19,10 +19,11 @@ packer.startup(function(use)
   use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
+  use 'jose-elias-alvarez/typescript.nvim'
   use 'simrat39/inlay-hints.nvim'
   use 'simrat39/symbols-outline.nvim'
   use 'j-hui/fidget.nvim'
-  use "danymat/neogen"
+  use 'danymat/neogen'
 
   use 'lewis6991/impatient.nvim'
 
@@ -52,13 +53,13 @@ packer.startup(function(use)
   use 'goolord/alpha-nvim'
   use 'akinsho/bufferline.nvim'
   use 'lewis6991/gitsigns.nvim'
-  use 'rcarriga/nvim-notify'
 
   use {
     'nvim-neotest/neotest',
     requires = { {
       'Issafalcon/neotest-dotnet',
       'rouge8/neotest-rust',
+      'haydenmeade/neotest-jest',
       'antoinemadec/FixCursorHold.nvim'
     } }
   }
