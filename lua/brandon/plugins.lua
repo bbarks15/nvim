@@ -34,6 +34,7 @@ packer.startup(function(use)
   use 'folke/todo-comments.nvim'
   use 'folke/trouble.nvim'
   use 'ThePrimeagen/harpoon'
+  use 'kevinhwang91/nvim-bqf'
 
   use 'L3MON4D3/LuaSnip'
   use 'saadparwaiz1/cmp_luasnip'
@@ -53,6 +54,8 @@ packer.startup(function(use)
   use 'goolord/alpha-nvim'
   use 'akinsho/bufferline.nvim'
   use 'lewis6991/gitsigns.nvim'
+  use 'tpope/vim-fugitive'
+  use 'kdheepak/lazygit.nvim'
 
   use {
     'nvim-neotest/neotest',
