@@ -56,6 +56,7 @@ packer.startup(function(use)
   use 'lewis6991/gitsigns.nvim'
   use 'tpope/vim-fugitive'
   use 'kdheepak/lazygit.nvim'
+  use 'nvim-tree/nvim-tree.lua'
 
   use {
     'nvim-neotest/neotest',
