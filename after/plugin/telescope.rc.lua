@@ -44,7 +44,7 @@ telescope.setup {
 telescope.load_extension("fzf")
 
 vim.keymap.set('n', '<C-P>', function() builtin.find_files({ hidden = true }) end)
-vim.keymap.set('n', '<leader>g', function() builtin.live_grep() end)
+vim.keymap.set('n', '<leader>F', function() builtin.live_grep() end)
 vim.keymap.set('n', '<leader>r', function() builtin.oldfiles() end)
 vim.keymap.set('n', '<leader>b', function() builtin.buffers() end)
 vim.keymap.set('n', '<leader><leader>', function() builtin.resume() end)

@@ -1,11 +1,12 @@
 require('impatient')
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 require('brandon.base')
 require('brandon.highlights')
 require('brandon.maps')
 require('brandon.plugins')
-
--- vim.cmd('colo duskfox')
 
 local has = vim.fn.has
 local is_mac = has "macunix"

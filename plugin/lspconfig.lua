@@ -13,7 +13,7 @@ local on_attach = function(client, bufnr)
 
   local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
   if filetype == "typescript" or filetype == "typescriptreact" or filetype == "typescript.tsx" then
-    buf_set_keymap('n', 'gd', "<Cmd>TypescriptGoToSourceDefinition <CR>", opts)
+    buf_set_keymap('n', 'gd', "<Cmd>TypescriptGoToSourceDefinition<CR>", opts)
   else
     buf_set_keymap('n', 'gd', "<Cmd>lua vim.lsp.buf.definition() <CR>", opts)
   end
@@ -70,10 +70,10 @@ nvim_lsp.jsonls.setup {
   capabilities = capabilities
 }
 
--- nvim_lsp.tailwindcss.setup {
---   on_attach = on_attach,
---   capabilities = capabilities
--- }
+nvim_lsp.tailwindcss.setup {
+  on_attach = on_attach,
+  capabilities = capabilities
+}
 
 nvim_lsp.cssls.setup {
   on_attach = on_attach,

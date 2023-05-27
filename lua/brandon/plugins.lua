@@ -8,14 +8,14 @@ vim.cmd [[packadd packer.nvim]]
 
 packer.startup(function(use)
   use 'wbthomason/packer.nvim'
-  use 'nvim-lualine/lualine.nvim' -- Statusline
-  use 'nvim-lua/plenary.nvim' -- Common utilities
-  use 'onsails/lspkind-nvim' -- vscode-like pictograms
-  use 'hrsh7th/cmp-buffer' -- nvim-cmp source for buffer words
-  use 'hrsh7th/cmp-nvim-lsp' -- nvim-cmp source for neovim's built-in LSP
-  use 'hrsh7th/nvim-cmp' -- Completion
+  use 'nvim-lualine/lualine.nvim'       -- Statusline
+  use 'nvim-lua/plenary.nvim'           -- Common utilities
+  use 'onsails/lspkind-nvim'            -- vscode-like pictograms
+  use 'hrsh7th/cmp-buffer'              -- nvim-cmp source for buffer words
+  use 'hrsh7th/cmp-nvim-lsp'            -- nvim-cmp source for neovim's built-in LSP
+  use 'hrsh7th/nvim-cmp'                -- Completion
   use 'hrsh7th/cmp-nvim-lsp-signature-help'
-  use 'neovim/nvim-lspconfig' -- LSP
+  use 'neovim/nvim-lspconfig'           -- LSP
   use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
@@ -74,6 +74,7 @@ packer.startup(function(use)
   use 'rebelot/kanagawa.nvim'
   use 'folke/tokyonight.nvim'
   use "EdenEast/nightfox.nvim"
+  use "olivercederborg/poimandres.nvim"
   use {
     "jesseleite/nvim-noirbuddy",
     requires = { "tjdevries/colorbuddy.nvim", branch = "dev" }

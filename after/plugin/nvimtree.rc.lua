@@ -1,14 +1,18 @@
 local status, tree = pcall(require, "nvim-tree")
 if (not status) then return end
 
--- disable netrw at the very start of your init.lua (strongly advised)
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
-
 -- empty setup using defaults
 tree.setup({
-  hijack_netrw = true,
+  view = {
+    signcolumn = "no",
+  },
+  renderer = {
+    root_folder_label = false,
+  }
 })
+
+vim.keymap.set("n", "<leader>e", "<CMD>NvimTreeToggle<CR>")
+vim.keymap.set("n", "<leader>E", "<CMD>NvimTreeFindFile<CR>")
 
 -- -- OR setup with some options
 -- require("nvim-tree").setup({
