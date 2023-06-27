@@ -22,7 +22,10 @@ packer.startup(function(use)
   use 'jose-elias-alvarez/typescript.nvim'
   use 'simrat39/inlay-hints.nvim'
   use 'simrat39/symbols-outline.nvim'
-  use 'j-hui/fidget.nvim'
+  use {
+    'j-hui/fidget.nvim',
+    tag = 'legacy',
+  }
   use 'danymat/neogen'
 
   use 'lewis6991/impatient.nvim'
