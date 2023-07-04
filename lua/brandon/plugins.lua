@@ -8,20 +8,27 @@ vim.cmd [[packadd packer.nvim]]
 
 packer.startup(function(use)
   use 'wbthomason/packer.nvim'
-  use 'nvim-lualine/lualine.nvim'       -- Statusline
-  use 'nvim-lua/plenary.nvim'           -- Common utilities
-  use 'onsails/lspkind-nvim'            -- vscode-like pictograms
-  use 'hrsh7th/cmp-buffer'              -- nvim-cmp source for buffer words
-  use 'hrsh7th/cmp-nvim-lsp'            -- nvim-cmp source for neovim's built-in LSP
-  use 'hrsh7th/nvim-cmp'                -- Completion
+  use 'nvim-lualine/lualine.nvim'
+  use 'nvim-lua/plenary.nvim'
+  use 'onsails/lspkind-nvim'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp-signature-help'
-  use 'neovim/nvim-lspconfig'           -- LSP
-  use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
+  use 'neovim/nvim-lspconfig'
+  use 'jose-elias-alvarez/null-ls.nvim'
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
   use 'jose-elias-alvarez/typescript.nvim'
+  use {
+    'mrcjkb/haskell-tools.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+    },
+    branch = '1.x.x',
+  }
   use 'simrat39/inlay-hints.nvim'
-  use 'simrat39/symbols-outline.nvim'
   use {
     'j-hui/fidget.nvim',
     tag = 'legacy',

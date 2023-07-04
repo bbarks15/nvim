@@ -29,9 +29,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<leader>i", "<Cmd>lua vim.lsp.buf.incoming_calls() <CR>", opts)
   buf_set_keymap("n", "<leader>o", "<Cmd>lua vim.lsp.buf.outgoing_calls() <CR>", opts)
   buf_set_keymap("n", "<leader>a", "<Cmd>lua vim.lsp.buf.code_action() <CR>", opts)
-  buf_set_keymap('n', '<leader>f',
-    "<Cmd>lua vim.lsp.buf.format({ filter = function(client) return client.name ~= 'tsserver' end }) <CR>"
-    , opts)
+  buf_set_keymap('n', '<leader>f', "<Cmd>lua vim.lsp.buf.format({ filter = function(client) return client.name == \"null-ls\" end, bufnr = bufnr, }) <CR>", opts)
 
   buf_set_keymap('n', '[d', "<Cmd>lua vim.diagnostic.goto_prev() <CR>", opts)
   buf_set_keymap('n', ']d', "<Cmd>lua vim.diagnostic.goto_next() <CR>", opts)
@@ -49,6 +47,13 @@ require("typescript").setup({
     on_attach = on_attach,
     capabilities = capabilities,
   },
+})
+
+require('haskell-tools').setup({
+  hls = { on_attach = on_attach },
+  tools = {
+    hover = { disable = true, }
+  }
 })
 
 nvim_lsp.lua_ls.setup {
@@ -98,11 +103,6 @@ nvim_lsp.omnisharp.setup {
   -- cmd = { "/home/brandon/.local/share/nvim/mason/bin/omnisharp" },
 }
 
-nvim_lsp.hls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
-
 nvim_lsp.rust_analyzer.setup {
   on_attach = on_attach,
   capabilities = capabilities,
@@ -116,11 +116,11 @@ nvim_lsp.rust_analyzer.setup {
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-  underline = true,
-  update_in_insert = true,
-  virtual_text = { spacing = 4, prefix = "●" },
-  severity_sort = true,
-}
+    underline = true,
+    update_in_insert = true,
+    virtual_text = { spacing = 4, prefix = "●" },
+    severity_sort = true,
+  }
 )
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(

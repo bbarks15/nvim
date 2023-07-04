@@ -9,17 +9,3 @@ tokyo.setup({
     }
   end,
 })
-
-require("catppuccin").setup {
-  flavour = "mocha",
-  highlight_overrides = {
-    mocha = function(mocha)
-      return {
-        CursorLineNr = { bg = "#2a2b3c" },
-        CursorLineSign = { bg = "#2a2b3c" },
-      }
-    end,
-  },
-}
-
-vim.cmd.colorscheme "catppuccin"

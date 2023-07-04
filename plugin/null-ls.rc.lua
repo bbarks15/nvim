@@ -17,6 +17,8 @@ null_ls.setup {
   sources = {
     null_ls.builtins.formatting.prettierd,
     null_ls.builtins.formatting.csharpier,
+    null_ls.builtins.formatting.fourmolu,
+    null_ls.builtins.formatting.stylish_haskell,
     null_ls.builtins.formatting.rustfmt.with({
       extra_args = function(params)
         local Path = require("plenary.path")
