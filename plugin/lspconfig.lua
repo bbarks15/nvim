@@ -3,37 +3,56 @@
 local status, nvim_lsp = pcall(require, "lspconfig")
 if (not status) then return end
 
+local nmap = require("brandon.keymap").nmap
+
+local buf_nnoremap = function(opts)
+  if opts[3] == nil then
+    opts[3] = {}
+  end
+  opts[3].buffer = 0
+
+  nmap(opts)
+end
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-
-  -- Mappings.
-  local opts = { noremap = true, silent = true }
+local on_attach = function(_, bufnr)
 
   local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
   if filetype == "typescript" or filetype == "typescriptreact" or filetype == "typescript.tsx" then
-    buf_set_keymap('n', 'gd', "<Cmd>TypescriptGoToSourceDefinition<CR>", opts)
+    buf_nnoremap { "gd", "<Cmd>TypescriptGoToSourceDefinition<CR>" }
   else
-    buf_set_keymap('n', 'gd', "<Cmd>lua vim.lsp.buf.definition() <CR>", opts)
+    buf_nnoremap { "gd", vim.lsp.buf.definition }
   end
 
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'K', "<Cmd>lua vim.lsp.buf.hover() <CR>", opts)
-  buf_set_keymap('n', 'gT', "<Cmd>lua vim.lsp.buf.type_definition() <CR>", opts)
-  buf_set_keymap('n', 'gD', "<Cmd>lua vim.lsp.buf.declaration() <CR>", opts)
-  buf_set_keymap('n', 'gi', "<Cmd>lua vim.lsp.buf.implementation() <CR>", opts)
-  buf_set_keymap("n", "gr", "<Cmd>lua vim.lsp.buf.references() <CR>", opts)
-  buf_set_keymap('n', '<leader>cs', "<Cmd>lua vim.lsp.buf.signature_help() <CR>", opts)
-  buf_set_keymap("n", "<leader>cr", "<Cmd>lua vim.lsp.buf.rename() <CR>", opts)
-  buf_set_keymap("n", "<leader>i", "<Cmd>lua vim.lsp.buf.incoming_calls() <CR>", opts)
-  buf_set_keymap("n", "<leader>o", "<Cmd>lua vim.lsp.buf.outgoing_calls() <CR>", opts)
-  buf_set_keymap("n", "<leader>a", "<Cmd>lua vim.lsp.buf.code_action() <CR>", opts)
-  buf_set_keymap('n', '<leader>f', "<Cmd>lua vim.lsp.buf.format({ filter = function(client) return client.name == \"null-ls\" end, bufnr = bufnr, }) <CR>", opts)
+  local lsp_formatting = function()
+    vim.lsp.buf.format({
+      filter = function(client)
+        return client.name == "null-ls"
+      end,
+      bufnr = bufnr,
+    })
+  end
 
-  buf_set_keymap('n', '[d', "<Cmd>lua vim.diagnostic.goto_prev() <CR>", opts)
-  buf_set_keymap('n', ']d', "<Cmd>lua vim.diagnostic.goto_next() <CR>", opts)
-  buf_set_keymap('n', '<leader>vd', "<Cmd>lua vim.diagnostic.open_float() <CR>", opts)
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  -- buf_nnoremap { "K", vim.lsp.buf.hover }
+  buf_nnoremap { "K", vim.lsp.buf.hover }
+  buf_nnoremap { "gT", vim.lsp.buf.type_definition }
+  buf_nnoremap { "gD", vim.lsp.buf.declaration }
+  buf_nnoremap { "gi", vim.lsp.buf.implementation }
+  buf_nnoremap { "gr", vim.lsp.buf.references }
+  buf_nnoremap { "<leader>cs", vim.lsp.buf.signature_help }
+  buf_nnoremap { "<leader>cr", vim.lsp.buf.rename }
+  buf_nnoremap { "<leader>i", vim.lsp.buf.incoming_calls }
+  buf_nnoremap { "<leader>o", vim.lsp.buf.outgoing_calls }
+  buf_nnoremap { "<leader>a", vim.lsp.buf.code_action }
+  buf_nnoremap { "<leader>f", lsp_formatting }
+
+  buf_nnoremap { "[d", vim.diagnostic.goto_prev }
+  buf_nnoremap { "]d", vim.diagnostic.goto_next }
+  buf_nnoremap { "<leader>vd", vim.diagnostic.open_float }
+
 end
 
 -- Set up completion using nvim_cmp with LSP source

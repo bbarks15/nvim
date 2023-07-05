@@ -18,8 +18,6 @@
 - Neogen
 
 # Review
-- symbols-outline.nvim
 - Inlay hints and remove Rust-Tools
 - Neotest
-- Use netrw
 - Harpoon
