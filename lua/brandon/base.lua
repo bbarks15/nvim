@@ -53,3 +53,4 @@ vim.cmd([[let &t_Ce = "\e[4:0m"]])
 vim.cmd([[let &fcs="eob: "]])
 
 vim.cmd('autocmd Filetype cs setlocal tabstop=4 shiftwidth=4')
+vim.cmd('autocmd Filetype json setlocal conceallevel=0')

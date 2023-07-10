@@ -5,7 +5,6 @@ null_ls.setup {
   debug = false,
   sources = {
     null_ls.builtins.formatting.prettierd,
-    null_ls.builtins.formatting.csharpier,
     null_ls.builtins.formatting.fourmolu,
     null_ls.builtins.formatting.stylish_haskell,
     null_ls.builtins.formatting.rustfmt.with({

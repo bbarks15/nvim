@@ -21,6 +21,13 @@ packer.startup(function(use)
   use 'williamboman/mason-lspconfig.nvim'
   use 'jose-elias-alvarez/typescript.nvim'
   use {
+    "pmizio/typescript-tools.nvim",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "neovim/nvim-lspconfig"
+    },
+  }
+  use {
     'mrcjkb/haskell-tools.nvim',
     requires = {
       'nvim-lua/plenary.nvim',

@@ -14,13 +14,11 @@ local buf_nnoremap = function(opts)
   nmap(opts)
 end
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
 local on_attach = function(_, bufnr)
 
   local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
   if filetype == "typescript" or filetype == "typescriptreact" or filetype == "typescript.tsx" then
-    buf_nnoremap { "gd", "<Cmd>TypescriptGoToSourceDefinition<CR>" }
+    buf_nnoremap { "gd", require('typescript-tools.api').go_to_source_definition }
   else
     buf_nnoremap { "gd", vim.lsp.buf.definition }
   end
@@ -34,9 +32,6 @@ local on_attach = function(_, bufnr)
     })
   end
 
-
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  -- buf_nnoremap { "K", vim.lsp.buf.hover }
   buf_nnoremap { "K", vim.lsp.buf.hover }
   buf_nnoremap { "gT", vim.lsp.buf.type_definition }
   buf_nnoremap { "gD", vim.lsp.buf.declaration }
@@ -46,7 +41,8 @@ local on_attach = function(_, bufnr)
   buf_nnoremap { "<leader>cr", vim.lsp.buf.rename }
   buf_nnoremap { "<leader>i", vim.lsp.buf.incoming_calls }
   buf_nnoremap { "<leader>o", vim.lsp.buf.outgoing_calls }
-  buf_nnoremap { "<leader>a", vim.lsp.buf.code_action }
+  -- buf_nnoremap { "<leader>a", vim.lsp.buf.code_action }
+  vim.keymap.set({ "n", "x", "v" }, "<leader>a", vim.lsp.buf.code_action, { buffer = bufnr })
   buf_nnoremap { "<leader>f", lsp_formatting }
 
   buf_nnoremap { "[d", vim.diagnostic.goto_prev }
@@ -58,15 +54,10 @@ end
 -- Set up completion using nvim_cmp with LSP source
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-require("typescript").setup({
-  disable_commands = false,
-  debug = false,
-  go_to_source_definition = { fallback = true, },
-  server = {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  },
-})
+require("typescript-tools").setup {
+  on_attach = on_attach,
+  settings = { publish_diagnostic_on = "insert_leave" },
+}
 
 require('haskell-tools').setup({
   hls = { on_attach = on_attach },
@@ -112,14 +103,6 @@ nvim_lsp.html.setup {
 nvim_lsp.svelte.setup {
   on_attach = on_attach,
   capabilities = capabilities
-}
-
-nvim_lsp.omnisharp.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  cmd = { "dotnet", "C:\\Users\\bb11379\\AppData\\Local\\nvim-data\\mason\\packages\\omnisharp\\OmniSharp.dll" },
-  -- enable_roslyn_analyzers = true,
-  -- cmd = { "/home/brandon/.local/share/nvim/mason/bin/omnisharp" },
 }
 
 nvim_lsp.rust_analyzer.setup {
