@@ -33,16 +33,20 @@ local on_attach = function(_, bufnr)
   end
 
   buf_nnoremap { "K", vim.lsp.buf.hover }
+
   buf_nnoremap { "gT", vim.lsp.buf.type_definition }
   buf_nnoremap { "gD", vim.lsp.buf.declaration }
   buf_nnoremap { "gi", vim.lsp.buf.implementation }
   buf_nnoremap { "gr", vim.lsp.buf.references }
+
   buf_nnoremap { "<leader>cs", vim.lsp.buf.signature_help }
   buf_nnoremap { "<leader>cr", vim.lsp.buf.rename }
+  buf_nnoremap { "<leader>cl", vim.lsp.codelens.run }
+  vim.keymap.set({ "n", "x", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr })
+
   buf_nnoremap { "<leader>i", vim.lsp.buf.incoming_calls }
   buf_nnoremap { "<leader>o", vim.lsp.buf.outgoing_calls }
   -- buf_nnoremap { "<leader>a", vim.lsp.buf.code_action }
-  vim.keymap.set({ "n", "x", "v" }, "<leader>a", vim.lsp.buf.code_action, { buffer = bufnr })
   buf_nnoremap { "<leader>f", lsp_formatting }
 
   buf_nnoremap { "[d", vim.diagnostic.goto_prev }
