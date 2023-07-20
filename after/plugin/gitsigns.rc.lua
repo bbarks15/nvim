@@ -14,8 +14,6 @@ gitsigns.setup {
     map('n', '<leader>tb', gs.toggle_current_line_blame)
     map('n', '<leader>gb', function() gs.blame_line { full = true } end)
     map('n', '<leader>gp', gs.preview_hunk)
-    map('n', '<leader>gr', gs.reset_hunk)
-    map('n', '<leader>gs', gs.stage_hunk)
-    map('n', '<leader>gu', gs.undo_stage_hunk)
+    map('n', '<leader>gu', gs.reset_hunk)
   end
 }
