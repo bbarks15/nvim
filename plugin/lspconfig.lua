@@ -47,7 +47,7 @@ local on_attach = function(_, bufnr)
   buf_nnoremap { "<leader>i", vim.lsp.buf.incoming_calls }
   buf_nnoremap { "<leader>o", vim.lsp.buf.outgoing_calls }
   -- buf_nnoremap { "<leader>a", vim.lsp.buf.code_action }
-  buf_nnoremap { "<leader>f", lsp_formatting }
+  buf_nnoremap { "<leader>ff", lsp_formatting }
 
   buf_nnoremap { "[d", vim.diagnostic.goto_prev }
   buf_nnoremap { "]d", vim.diagnostic.goto_next }

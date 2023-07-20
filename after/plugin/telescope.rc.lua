@@ -11,6 +11,11 @@ local function get_pickers(a)
       hidden = true,
       previewer = false,
     },
+    commands = {
+      theme = "dropdown",
+      hidden = true,
+      previewer = false,
+    },
     buffers = {
       theme = "dropdown",
       previewer = false,
@@ -43,7 +48,8 @@ telescope.setup {
 
 telescope.load_extension("fzf")
 
-vim.keymap.set('n', '<C-P>', function() builtin.find_files({ hidden = true }) end)
+vim.keymap.set('n', '<C-P>', function() builtin.find_files() end)
+vim.keymap.set('n', '<leader>P', function() builtin.commands() end)
 vim.keymap.set('n', '<leader>F', function() builtin.live_grep() end)
 vim.keymap.set('n', '<leader>r', function() builtin.oldfiles() end)
 vim.keymap.set('n', '<leader>b', function() builtin.buffers() end)
