@@ -28,7 +28,8 @@ cmp.setup({
       end
     },
     { name = 'luasnip' },
-    { name = 'nvim_lsp_signature_help' }
+    { name = 'nvim_lsp_signature_help' },
+    { name = 'async_path' }
   }),
   formatting = {
     fields = { "kind", "abbr", "menu" },
@@ -47,3 +48,5 @@ cmp.setup({
     documentation = cmp.config.window.bordered(),
   },
 })
+
+vim.opt.pumblend = 0

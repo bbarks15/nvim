@@ -15,6 +15,7 @@ packer.startup(function(use)
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp-signature-help'
+  use 'FelipeLema/cmp-async-path'
   use 'neovim/nvim-lspconfig'
   use 'jose-elias-alvarez/null-ls.nvim'
   use 'williamboman/mason.nvim'
@@ -29,11 +30,11 @@ packer.startup(function(use)
   }
   use {
     'mrcjkb/haskell-tools.nvim',
+    ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope.nvim',
     },
-    branch = '1.x.x',
   }
   use 'simrat39/inlay-hints.nvim'
   use {

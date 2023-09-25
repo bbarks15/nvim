@@ -6,5 +6,8 @@ fidget.setup({
     ['null-ls'] = {
       ignore = true,
     }
-  }
+  },
+  window = {
+    blend = 0,
+  },
 })
