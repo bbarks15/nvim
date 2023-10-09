@@ -59,6 +59,12 @@ vim.cmd([[let &fcs="eob: "]])
 vim.cmd('autocmd Filetype cs setlocal tabstop=4 shiftwidth=4')
 vim.cmd('autocmd Filetype json setlocal conceallevel=0')
 
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank({ timeout = 150 })
+  end,
+})
+
 vim.opt.cursorline = true
 vim.opt.termguicolors = true
 vim.opt.winblend = 0
