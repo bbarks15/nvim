@@ -9,10 +9,7 @@ return {
         "pmizio/typescript-tools.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
       },
-      {
-        "j-hui/fidget.nvim",
-        tag = "legacy",
-      },
+      { "j-hui/fidget.nvim", tag = "legacy" },
       "folke/neodev.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "stevearc/conform.nvim",
@@ -23,12 +20,16 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
+          'jsonls',
+          'tailwindcss',
+          'cssls',
+          'html',
+          'svelte',
+          "prismals",
+          "astro"
         },
         automatic_installation = true,
       })
-
-      -- Quick access via keymap
-      -- require("helpers.keys").map("n", "<leader>M", "<cmd>Mason<cr>", "Show Mason")
 
       -- Neodev setup before LSP config
       require("neodev").setup()
@@ -36,9 +37,7 @@ return {
       -- Turn on LSP status information
       require("fidget").setup({
         sources = {
-          ["null-ls"] = {
-            ignore = true,
-          },
+          ["null-ls"] = { ignore = true, },
         },
         window = {
           blend = 0,
@@ -62,9 +61,7 @@ return {
       -- Diagnostic config
       local config = {
         virtual_text = { prefix = "●" },
-        signs = {
-          active = signs,
-        },
+        signs = { active = signs, },
         update_in_insert = true,
         underline = true,
         severity_sort = true,

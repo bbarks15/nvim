@@ -21,9 +21,9 @@ return {
           "css",
           "html",
           "lua",
+          "vim",
           "typescript",
           "javascript",
-          "c_sharp",
           "rust",
         },
         highlight = { enable = true },
@@ -43,7 +43,5 @@ return {
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
       parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
     end,
-
-    require("treesitter-context").setup({ enable = true }),
   },
 }
