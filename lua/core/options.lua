@@ -67,6 +67,5 @@ vim.opt.pumblend = 5
 vim.opt.background = 'dark'
 
 -- Set other options
--- local colorscheme = require("helpers.colorscheme")
--- vim.cmd.colorscheme(colorscheme)
 vim.cmd.colorscheme "catppuccin"
+-- vim.cmd.colorscheme "tokyonight"

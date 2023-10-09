@@ -25,7 +25,7 @@ require("helpers.keys").set_leader(" ")
 -- (The leader key must be set before this)
 lazy.setup("plugins", {
   install = {
-    colorscheme = { "catppuccin-latte" },
+    colorscheme = { "catppuccin" },
   },
 })
 
