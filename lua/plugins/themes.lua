@@ -11,10 +11,13 @@ return {
 
   {
     "catppuccin/nvim",
+    -- dependencies = {
+    --   "nvim-neo-tree/neo-tree.nvim",
+    -- },
     name = "catppuccin",
     priority = 1000,
     opts = {
-      flavour = "mocha",
+      flavour = "latte",
       highlight_overrides = {
         mocha = function(_)
           return {

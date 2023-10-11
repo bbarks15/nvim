@@ -7,7 +7,7 @@ return {
         icons_enabled = true,
         section_separators = { left = "", right = "" },
         component_separators = "|",
-        disabled_filetypes = { "packer", "NvimTree", "alpha" },
+        disabled_filetypes = { "packer", "NvimTree", "alpha", "neo-tree" },
       },
       sections = {
         lualine_a = { { "mode", separator = { left = "" }, right_padding = 2 } },

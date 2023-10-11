@@ -74,4 +74,5 @@ vim.opt.background = 'dark'
 
 -- Set other options
 vim.cmd.colorscheme "catppuccin"
+vim.cmd.colorscheme "catppuccin"
 -- vim.cmd.colorscheme "tokyonight"
