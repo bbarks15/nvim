@@ -181,17 +181,18 @@ return {
         on_attach = on_attach,
         capabilities = capabilities,
         cmd = { "rustup", "run", "nightly", "rust-analyzer" },
-        -- settings = {
-        -- 	["rust-analyzer"] = {
-        -- 		checkOnSave = { command = "clippy" },
-        -- 	},
-        -- },
+        settings = {
+        	["rust-analyzer"] = {
+        		checkOnSave = { command = "clippy" },
+        	},
+        },
       })
     end,
   },
   {
     "stevearc/conform.nvim",
     opts = {
+      -- log_level = vim.log.levels.TRACE,
       formatters_by_ft = {
         ["javascript"] = { { "prettierd", "prettier" } },
         ["javascriptreact"] = { { "prettierd", "prettier" } },

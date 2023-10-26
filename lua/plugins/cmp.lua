@@ -8,22 +8,14 @@ return {
       "hrsh7th/cmp-buffer",
       "FelipeLema/cmp-async-path",
       "hrsh7th/cmp-nvim-lsp-signature-help",
-      "onsails/lspkind-nvim",
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
     },
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
-      local lspkind = require("lspkind")
 
       local icons = require("core.icons")
-
-      lspkind.init({
-        mode = "symbol",
-        preset = "default",
-        symbol_map = icons.kind,
-      })
 
       ---@diagnostic disable-next-line: missing-fields
       cmp.setup({
@@ -55,15 +47,18 @@ return {
         }),
         ---@diagnostic disable-next-line: missing-fields
         formatting = {
-          fields = { "kind", "abbr", "menu" },
-          format = function(entry, vim_item)
-            local kind = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
-            local strings = vim.split(kind.kind, "%s", { trimempty = true })
-
-            kind.kind = (strings[1] or "")
-            kind.menu = "(" .. (strings[2] or "") .. ")"
-
-            return kind
+          fields = { "abbr", "kind" },
+          format = function(entry, item)
+            item.abbr = string.sub(item.abbr, 1, 20)
+            if icons.kind[item.kind] then
+              item.kind = string.format('%s %s', icons.kind[item.kind], item.kind)
+            end
+            item.menu = ""
+            -- item.menu = "[" .. (item.kind or "") .. "]"
+            -- if icons.kind[item.kind] then
+            --   item.kind = icons.kind[item.kind]
+            -- end
+            return item
           end,
         },
         window = {
