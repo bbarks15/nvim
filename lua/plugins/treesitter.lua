@@ -8,7 +8,7 @@ return {
     end,
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
-      "nvim-treesitter/nvim-treesitter-context",
+      -- "nvim-treesitter/nvim-treesitter-context",
       "JoosepAlviste/nvim-ts-context-commentstring",
       "windwp/nvim-ts-autotag",
     },
@@ -43,7 +43,10 @@ return {
           },
         },
         autotag = { enable = true },
-        context_commentstring = { enable = true },
+        context_commentstring = {
+          enable = true,
+          enable_autocmd = false,
+        },
       })
 
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
