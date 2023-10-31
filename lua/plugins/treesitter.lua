@@ -42,7 +42,10 @@ return {
             scope_incremental = "<c-s>",
           },
         },
-        autotag = { enable = true },
+        autotag = {
+          enable = true,
+          enable_close_on_slash = false,
+        },
         context_commentstring = {
           enable = true,
           enable_autocmd = false,

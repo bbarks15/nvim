@@ -13,6 +13,7 @@ vim.opt.backup = false
 vim.opt.showcmd = true
 vim.opt.cmdheight = 1
 -- vim.opt.shell = 'fish'
+vim.opt.autoread = true
 vim.opt.backupskip = { '/tmp/*', '/private/tmp/*' }
 vim.opt.inccommand = 'split'
 vim.opt.smarttab = true
