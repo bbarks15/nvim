@@ -39,7 +39,7 @@ return {
         { "n", "v" },
         "<leader>E",
         function()
-          require("neo-tree.command").execute({ toggle = true, reveal = true })
+          require("neo-tree.command").execute({ reveal = true })
         end,
         "Toggle file explorer"
       )

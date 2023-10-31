@@ -81,13 +81,13 @@ return {
       vim.lsp.handlers["textDocument/signatureHelp"] =
           vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single" })
 
-      -- vim.lsp.handlers["textDocument/publishDiagnostics"] =
-      -- 	vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-      -- 		underline = true,
-      -- 		update_in_insert = true,
-      -- 		virtual_text = { spacing = 4, prefix = "●" },
-      -- 		severity_sort = true,
-      -- 	})
+      vim.lsp.handlers["textDocument/publishDiagnostics"] =
+          vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+            underline = true,
+            update_in_insert = true,
+            virtual_text = { spacing = 4, prefix = "●" },
+            severity_sort = true,
+          })
 
       local on_attach = function(_, bufnr)
         local lsp_map = require("helpers.keys").lsp_map
@@ -149,7 +149,6 @@ return {
         })
       end
 
-      -- Lua
       require("lspconfig")["lua_ls"].setup({
         on_attach = on_attach,
         capabilities = capabilities,
@@ -182,9 +181,9 @@ return {
         capabilities = capabilities,
         cmd = { "rustup", "run", "nightly", "rust-analyzer" },
         settings = {
-        	["rust-analyzer"] = {
-        		checkOnSave = { command = "clippy" },
-        	},
+          ["rust-analyzer"] = {
+            checkOnSave = { command = "clippy" },
+          },
         },
       })
     end,
