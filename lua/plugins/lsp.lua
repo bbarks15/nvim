@@ -141,7 +141,7 @@ return {
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 
-      local lsps = { 'jsonls', 'tailwindcss', 'cssls', 'html', 'svelte', "prismals", "astro" }
+      local lsps = { 'jsonls', 'tailwindcss', 'cssls', 'html', 'svelte', "prismals", "astro", "ocamllsp", "pylsp" }
       for _, lsp in ipairs(lsps) do
         require("lspconfig")[lsp].setup({
           on_attach = on_attach,
@@ -186,32 +186,63 @@ return {
           },
         },
       })
+      vim.g.haskell_tools = {
+        ---@type ToolsOpts
+        tools = {
+          hover = { enable = false },
+        },
+        ---@type HaskellLspClientOpts
+        hls = {
+          ---@param client number The LSP client ID.
+          ---@param bufnr number The buffer number
+          ---@param ht HaskellTools = require('haskell-tools')
+          on_attach = on_attach
+        },
+        ---@type HTDapOpts
+        dap = {},
+      }
     end,
   },
   {
     "stevearc/conform.nvim",
-    opts = {
-      -- log_level = vim.log.levels.TRACE,
-      formatters_by_ft = {
-        ["javascript"] = { { "prettierd", "prettier" } },
-        ["javascriptreact"] = { { "prettierd", "prettier" } },
-        ["typescript"] = { { "prettierd", "prettier" } },
-        ["typescriptreact"] = { { "prettierd", "prettier" } },
-        ["vue"] = { { "prettierd", "prettier" } },
-        ["css"] = { { "prettierd", "prettier" } },
-        ["scss"] = { { "prettierd", "prettier" } },
-        ["less"] = { { "prettierd", "prettier" } },
-        ["html"] = { { "prettierd", "prettier" } },
-        ["json"] = { { "prettierd", "prettier" } },
-        ["jsonc"] = { { "prettierd", "prettier" } },
-        ["yaml"] = { { "prettierd", "prettier" } },
-        ["markdown"] = { { "prettierd", "prettier" } },
-        ["markdown.mdx"] = { { "prettierd", "prettier" } },
-        ["graphql"] = { { "prettierd", "prettier" } },
-        ["handlebars"] = { { "prettierd", "prettier" } },
-      },
+    config = function()
+      require("conform").formatters.stylish_haskell = {
+        inherit = false,
+        command = "stylish-haskell",
+        args = { "$FILENAME" },
+        stdin = true,
+      }
 
-    }
+      require("conform").setup({
+        log_level = vim.log.levels.TRACE,
+        formatters_by_ft = {
+          ["javascript"] = { { "prettierd", "prettier" } },
+          ["javascriptreact"] = { { "prettierd", "prettier" } },
+          ["typescript"] = { { "prettierd", "prettier" } },
+          ["typescriptreact"] = { { "prettierd", "prettier" } },
+          ["vue"] = { { "prettierd", "prettier" } },
+          ["css"] = { { "prettierd", "prettier" } },
+          ["scss"] = { { "prettierd", "prettier" } },
+          ["less"] = { { "prettierd", "prettier" } },
+          ["html"] = { { "prettierd", "prettier" } },
+          ["json"] = { { "prettierd", "prettier" } },
+          ["jsonc"] = { { "prettierd", "prettier" } },
+          ["yaml"] = { { "prettierd", "prettier" } },
+          ["markdown"] = { { "prettierd", "prettier" } },
+          ["markdown.mdx"] = { { "prettierd", "prettier" } },
+          ["graphql"] = { { "prettierd", "prettier" } },
+          ["handlebars"] = { { "prettierd", "prettier" } },
+          -- ["haskell"] = { "fourmolu", "stylish_haskell" }
+          ["haskell"] = { "fourmolu" },
+          python = { "ruff_format", "ruff_fix" },
+        },
+      }
+      )
+    end
   },
-
+  {
+    'mrcjkb/haskell-tools.nvim',
+    version = '^3', -- Recommended
+    ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
+  }
 }

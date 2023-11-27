@@ -48,7 +48,7 @@ return {
             n = { ["q"] = actions.close },
           },
           pickers = get_pickers(actions),
-          file_ignore_patterns = { "^.git", "^obj", "^bin", "^node_modules", "^.next", "^.idea", "^.vscode" },
+          file_ignore_patterns = { "^.git", "^obj", "^_build", "^node_modules", "^.next", "^.idea", "^.vscode", "^target" },
         },
         pickers = get_pickers(actions),
         extensions = {},

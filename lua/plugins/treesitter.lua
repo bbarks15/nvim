@@ -46,11 +46,15 @@ return {
           enable = true,
           enable_close_on_slash = false,
         },
-        context_commentstring = {
-          enable = true,
-          enable_autocmd = false,
-        },
+        -- context_commentstring = {
+        --   enable = true,
+        --   enable_autocmd = false,
+        -- },
       })
+
+      require('ts_context_commentstring').setup {
+        enable_autocmd = false
+      }
 
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
       parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
