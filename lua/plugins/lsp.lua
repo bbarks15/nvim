@@ -13,6 +13,7 @@ return {
       "folke/neodev.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "stevearc/conform.nvim",
+      "elixir-tools/elixir-tools.nvim"
     },
     config = function()
       -- Set up Mason before anything else
@@ -141,7 +142,18 @@ return {
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 
-      local lsps = { 'jsonls', 'tailwindcss', 'cssls', 'html', 'svelte', "prismals", "astro", "ocamllsp", "pylsp" }
+      local lsps = {
+        'jsonls',
+        'tailwindcss',
+        'cssls',
+        'html',
+        'svelte',
+        "prismals",
+        "astro",
+        "ocamllsp",
+        "pylsp",
+        "gleam"
+      }
       for _, lsp in ipairs(lsps) do
         require("lspconfig")[lsp].setup({
           on_attach = on_attach,
@@ -186,6 +198,11 @@ return {
           },
         },
       })
+
+      require("elixir").setup({
+        elixirls = { on_attach = on_attach },
+      })
+
       vim.g.haskell_tools = {
         ---@type ToolsOpts
         tools = {
@@ -193,9 +210,6 @@ return {
         },
         ---@type HaskellLspClientOpts
         hls = {
-          ---@param client number The LSP client ID.
-          ---@param bufnr number The buffer number
-          ---@param ht HaskellTools = require('haskell-tools')
           on_attach = on_attach
         },
         ---@type HTDapOpts
