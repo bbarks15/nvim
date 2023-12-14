@@ -55,6 +55,5 @@ return {
       end,
     },
   },
-  "EdenEast/nightfox.nvim",
   "olivercederborg/poimandres.nvim",
 }
