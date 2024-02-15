@@ -9,7 +9,7 @@ return {
         "pmizio/typescript-tools.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
       },
-      { "j-hui/fidget.nvim", tag = "legacy" },
+      { "j-hui/fidget.nvim" },
       "folke/neodev.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "stevearc/conform.nvim",
@@ -37,12 +37,12 @@ return {
 
       -- Turn on LSP status information
       require("fidget").setup({
-        sources = {
-          ["null-ls"] = { ignore = true, },
-        },
-        window = {
-          blend = 0,
-        },
+        -- sources = {
+        --   ["null-ls"] = { ignore = true, },
+        -- },
+        -- window = {
+        --   blend = 0,
+        -- },
       })
 
       -- Set up cool signs for diagnostics

@@ -55,5 +55,7 @@ return {
       end,
     },
   },
+  "nyoom-engineering/oxocarbon.nvim",
   "olivercederborg/poimandres.nvim",
+  "zootedb0t/citruszest.nvim",
 }

@@ -36,30 +36,26 @@ return {
   },
   {
     "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-      require("harpoon").setup()
+      local harpoon = require("harpoon")
+
+      harpoon.setup()
 
       local map = require("helpers.keys").map
 
-      map("n", "<leader>m", require("harpoon.mark").add_file)
-      map("n", "<C-e>", require("harpoon.ui").toggle_quick_menu)
+      map("n", "<leader>m", function() harpoon:list():append() end)
+      map("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
-      map("n", "<leader>h", function()
-        require("harpoon.ui").nav_file(1)
-      end)
-      map("n", "<leader>j", function()
-        require("harpoon.ui").nav_file(2)
-      end)
-      map("n", "<leader>k", function()
-        require("harpoon.ui").nav_file(3)
-      end)
-      map("n", "<leader>l", function()
-        require("harpoon.ui").nav_file(4)
-      end)
+      map("n", "<leader>h", function() harpoon:list():select(1) end)
+      map("n", "<leader>j", function() harpoon:list():select(2) end)
+      map("n", "<leader>k", function() harpoon:list():select(3) end)
+      map("n", "<leader>l", function() harpoon:list():select(4) end)
 
       for i = 1, 9 do
         vim.keymap.set("n", string.format("<leader>%s", i), function()
-          require("harpoon.ui").nav_file(i)
+          harpoon:list():select(i)
         end)
       end
     end,
