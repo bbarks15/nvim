@@ -152,7 +152,8 @@ return {
         "astro",
         "ocamllsp",
         "pylsp",
-        "gleam"
+        "gleam",
+        "marksman"
       }
       for _, lsp in ipairs(lsps) do
         require("lspconfig")[lsp].setup({
@@ -242,8 +243,8 @@ return {
           ["json"] = { { "prettierd", "prettier" } },
           ["jsonc"] = { { "prettierd", "prettier" } },
           ["yaml"] = { { "prettierd", "prettier" } },
-          ["markdown"] = { { "prettierd", "prettier" } },
-          ["markdown.mdx"] = { { "prettierd", "prettier" } },
+          -- ["markdown"] = { { "prettierd", "prettier" } },
+          -- ["markdown.mdx"] = { { "prettierd", "prettier" } },
           ["graphql"] = { { "prettierd", "prettier" } },
           ["handlebars"] = { { "prettierd", "prettier" } },
           -- ["haskell"] = { "fourmolu", "stylish_haskell" }
