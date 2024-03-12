@@ -255,6 +255,7 @@ return {
       )
     end
   },
+  { 'dmmulroy/ts-error-translator.nvim', config = true },
   {
     'mrcjkb/haskell-tools.nvim',
     version = '^3', -- Recommended
