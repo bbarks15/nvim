@@ -9,7 +9,7 @@ return {
         "pmizio/typescript-tools.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
       },
-      { "j-hui/fidget.nvim", tag = "legacy" },
+      { "j-hui/fidget.nvim" },
       "folke/neodev.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "stevearc/conform.nvim",
@@ -37,12 +37,12 @@ return {
 
       -- Turn on LSP status information
       require("fidget").setup({
-        sources = {
-          ["null-ls"] = { ignore = true, },
-        },
-        window = {
-          blend = 0,
-        },
+        -- sources = {
+        --   ["null-ls"] = { ignore = true, },
+        -- },
+        -- window = {
+        --   blend = 0,
+        -- },
       })
 
       -- Set up cool signs for diagnostics
@@ -152,7 +152,8 @@ return {
         "astro",
         "ocamllsp",
         "pylsp",
-        "gleam"
+        "gleam",
+        "marksman"
       }
       for _, lsp in ipairs(lsps) do
         require("lspconfig")[lsp].setup({
@@ -251,8 +252,8 @@ return {
           ["json"] = { { "prettierd", "prettier" } },
           ["jsonc"] = { { "prettierd", "prettier" } },
           ["yaml"] = { { "prettierd", "prettier" } },
-          ["markdown"] = { { "prettierd", "prettier" } },
-          ["markdown.mdx"] = { { "prettierd", "prettier" } },
+          -- ["markdown"] = { { "prettierd", "prettier" } },
+          -- ["markdown.mdx"] = { { "prettierd", "prettier" } },
           ["graphql"] = { { "prettierd", "prettier" } },
           ["handlebars"] = { { "prettierd", "prettier" } },
           -- ["haskell"] = { "fourmolu", "stylish_haskell" }
@@ -263,6 +264,7 @@ return {
       )
     end
   },
+  { 'dmmulroy/ts-error-translator.nvim', config = true },
   {
     'mrcjkb/haskell-tools.nvim',
     version = '^3', -- Recommended

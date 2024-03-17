@@ -49,7 +49,7 @@ return {
         formatting = {
           fields = { "abbr", "kind" },
           format = function(entry, item)
-            item.abbr = string.sub(item.abbr, 1, 20)
+            -- item.abbr = string.sub(item.abbr, 1, 20)
             if icons.kind[item.kind] then
               item.kind = string.format('%s %s', icons.kind[item.kind], item.kind)
             end
