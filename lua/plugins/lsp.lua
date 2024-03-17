@@ -191,7 +191,7 @@ return {
       require("lspconfig")["rust_analyzer"].setup({
         on_attach = on_attach,
         capabilities = capabilities,
-        cmd = { "rustup", "run", "nightly", "rust-analyzer" },
+        cmd = { "rustup", "run", "stable", "rust-analyzer" },
         settings = {
           ["rust-analyzer"] = {
             checkOnSave = { command = "clippy" },
@@ -200,7 +200,16 @@ return {
       })
 
       require("elixir").setup({
-        elixirls = { on_attach = on_attach },
+        elixirls = {
+          on_attach = on_attach,
+          tag="v0.18.1",
+          settings = require("elixir.elixirls").settings {
+            dialyzerEnabled = true,
+            fetchDeps = false,
+            enableTestLenses = false,
+            suggestSpecs = true,
+          },
+        },
       })
 
       vim.g.haskell_tools = {
