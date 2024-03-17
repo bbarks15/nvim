@@ -80,17 +80,17 @@ return {
 
       require("luasnip.loaders.from_vscode").lazy_load()
 
-      -- <c-k> is my expansion key
+      -- <c-j> is my expansion key
       -- this will expand the current item or jump to the next item within the snippet.
-      vim.keymap.set({ "i", "s" }, "<c-k>", function()
+      vim.keymap.set({ "i", "s" }, "<c-j>", function()
         if luasnip.expand_or_jumpable() then
           luasnip.expand_or_jump()
         end
       end, { silent = true })
 
-      -- <c-j> is my jump backwards key.
+      -- <c-k> is my jump backwards key.
       -- this always moves to the previous item within the snippet
-      vim.keymap.set({ "i", "s" }, "<c-j>", function()
+      vim.keymap.set({ "i", "s" }, "<c-k>", function()
         if luasnip.jumpable(-1) then
           luasnip.jump(-1)
         end
