@@ -41,7 +41,7 @@ return {
     config = function()
       local harpoon = require("harpoon")
 
-      harpoon.setup()
+      harpoon:setup()
 
       local map = require("helpers.keys").map
 
