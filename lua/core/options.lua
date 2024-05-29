@@ -35,11 +35,13 @@ vim.opt.wildmode = { 'longest', 'list', 'full' }
 vim.opt.formatoptions = "tqn"
 -- vim.opt.textwidth = 80
 vim.opt.wrap = false -- No Wrap lines
+vim.opt.sidescroll = 5
+vim.opt.linebreak = true
 -- vim.opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 -- vim.opt.startofline = true
-vim.opt.conceallevel = 1
+-- vim.opt.conceallevel = 1
 vim.opt.signcolumn = 'yes'
 vim.opt.swapfile = false
 vim.opt.backup = false
@@ -74,6 +76,8 @@ vim.opt.pumblend = 5
 vim.opt.background = 'dark'
 
 -- Set other options
+vim.opt.background = "light"
 vim.cmd.colorscheme "catppuccin"
 vim.cmd.colorscheme "catppuccin"
 -- vim.cmd.colorscheme "tokyonight"
+-- vim.cmd.colorscheme "citruszest"
