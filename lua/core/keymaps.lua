@@ -11,12 +11,6 @@ map('n', '-', '<C-x>')
 -- Save
 map('n', '<C-s>', '<cmd>w<cr>')
 
--- Resize window
-map('n', '<leader><left>', '<C-w><')
-map('n', '<leader><right>', '<C-w>>')
-map('n', '<leader><up>', '<C-w>+')
-map('n', '<leader><down>', '<C-w>-')
-
 map('x', '<leader>p', '"_dP')
 
 map({'n', 'v'}, '<leader>y', '"+y')
@@ -29,8 +23,8 @@ map("v", "K", ":m '<-2<CR>gv=gv")
 
 map("n", "<C-k>", "<cmd>cprev<CR>zz")
 map("n", "<C-j>", "<cmd>cnext<CR>zz")
--- map("n", "<leader>k", "<cmd>lnext<CR>zz")
--- map("n", "<leader>j", "<cmd>lprev<CR>zz")
+map("n", "<leader>k", "<cmd>lnext<CR>zz")
+map("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")

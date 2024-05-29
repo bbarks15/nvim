@@ -22,11 +22,6 @@ return {
     config = true,
   },
   {
-    "danymat/neogen",
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    config = true,
-  },
-  {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
