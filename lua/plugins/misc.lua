@@ -26,6 +26,14 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
   {
+    "rachartier/tiny-devicons-auto-colors.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons"
+    },
+    event = "VeryLazy",
+    config = true
+  },
+  {
     "kevinhwang91/nvim-bqf",
     opts = { preview = { winblend = 0 } },
   },
@@ -90,5 +98,6 @@ return {
       ---@type lc.lang
       lang = "python3",
     },
-  }
+  },
+  "almo7aya/openingh.nvim"
 }
