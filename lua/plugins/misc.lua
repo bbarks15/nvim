@@ -48,7 +48,7 @@ return {
 
       local map = require("helpers.keys").map
 
-      map("n", "<leader>m", function() harpoon:list():append() end)
+      map("n", "<leader>m", function() harpoon:list():add() end)
       map("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
       map("n", "<leader>h", function() harpoon:list():select(1) end)
