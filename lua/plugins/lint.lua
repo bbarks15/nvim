@@ -15,26 +15,18 @@ return {
         -- null_ls.builtins.code_actions.eslint_d,
         require("none-ls.diagnostics.eslint_d").with({
           condition = function(utils)
-            return utils.root_has_file({
-              ".eslintrc",
-              ".eslintrc.js",
-              ".eslintrc.cjs",
-              ".eslintrc.yaml",
-              ".eslintrc.yml",
-              ".eslintrc.json",
-            })
+            local bufname = vim.api.nvim_buf_get_name(0)
+            local root = require('null-ls.utils').cosmiconfig("eslint", "eslintConfig")(bufname)
+
+            return root ~= nil
           end,
         }),
         require("none-ls.code_actions.eslint_d").with({
           condition = function(utils)
-            return utils.root_has_file({
-              ".eslintrc",
-              ".eslintrc.js",
-              ".eslintrc.cjs",
-              ".eslintrc.yaml",
-              ".eslintrc.yml",
-              ".eslintrc.json",
-            })
+            local bufname = vim.api.nvim_buf_get_name(0)
+            local root = require('null-ls.utils').cosmiconfig("eslint", "eslintConfig")(bufname)
+
+            return root ~= nil
           end,
         }),
       },
