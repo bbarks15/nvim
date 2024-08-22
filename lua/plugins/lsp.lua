@@ -13,7 +13,8 @@ return {
       "folke/neodev.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "stevearc/conform.nvim",
-      "elixir-tools/elixir-tools.nvim"
+      "elixir-tools/elixir-tools.nvim",
+      "jmederosalvarado/roslyn.nvim"
     },
     config = function()
       -- Set up Mason before anything else
@@ -153,7 +154,8 @@ return {
         "ocamllsp",
         "pylsp",
         "gleam",
-        "marksman"
+        "marksman",
+        "zls",
       }
       for _, lsp in ipairs(lsps) do
         require("lspconfig")[lsp].setup({
@@ -203,71 +205,46 @@ return {
       require("elixir").setup({
         elixirls = {
           on_attach = on_attach,
-          tag="v0.18.1",
+          enable = true,
           settings = require("elixir.elixirls").settings {
             dialyzerEnabled = true,
             fetchDeps = false,
             enableTestLenses = false,
-            suggestSpecs = true,
+            suggestSpecs = false,
           },
         },
       })
 
-      vim.g.haskell_tools = {
-        ---@type ToolsOpts
-        tools = {
-          hover = { enable = false },
-        },
-        ---@type HaskellLspClientOpts
-        hls = {
-          on_attach = on_attach
-        },
-        ---@type HTDapOpts
-        dap = {},
-      }
+      require("roslyn").setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
     end,
   },
   {
     "stevearc/conform.nvim",
-    config = function()
-      require("conform").formatters.stylish_haskell = {
-        inherit = false,
-        command = "stylish-haskell",
-        args = { "$FILENAME" },
-        stdin = true,
-      }
-
-      require("conform").setup({
-        log_level = vim.log.levels.TRACE,
-        formatters_by_ft = {
-          ["javascript"] = { { "prettierd", "prettier" } },
-          ["javascriptreact"] = { { "prettierd", "prettier" } },
-          ["typescript"] = { { "prettierd", "prettier" } },
-          ["typescriptreact"] = { { "prettierd", "prettier" } },
-          ["vue"] = { { "prettierd", "prettier" } },
-          ["css"] = { { "prettierd", "prettier" } },
-          ["scss"] = { { "prettierd", "prettier" } },
-          ["less"] = { { "prettierd", "prettier" } },
-          ["html"] = { { "prettierd", "prettier" } },
-          ["json"] = { { "prettierd", "prettier" } },
-          ["jsonc"] = { { "prettierd", "prettier" } },
-          ["yaml"] = { { "prettierd", "prettier" } },
-          -- ["markdown"] = { { "prettierd", "prettier" } },
-          -- ["markdown.mdx"] = { { "prettierd", "prettier" } },
-          ["graphql"] = { { "prettierd", "prettier" } },
-          ["handlebars"] = { { "prettierd", "prettier" } },
-          -- ["haskell"] = { "fourmolu", "stylish_haskell" }
-          ["haskell"] = { "fourmolu" },
-          python = { "ruff_format", "ruff_fix" },
-        },
-      }
-      )
-    end
+    opts = {
+      log_level = vim.log.levels.TRACE,
+      formatters_by_ft = {
+        ["javascript"] = { "prettierd", "prettier", stop_after_first = true },
+        ["javascriptreact"] = { "prettierd", "prettier", stop_after_first = true },
+        ["typescript"] = { "prettierd", "prettier", stop_after_first = true },
+        ["typescriptreact"] = { "prettierd", "prettier", stop_after_first = true },
+        ["vue"] = { "prettierd", "prettier", stop_after_first = true },
+        ["css"] = { "prettierd", "prettier", stop_after_first = true },
+        ["scss"] = { "prettierd", "prettier", stop_after_first = true },
+        ["less"] = { "prettierd", "prettier", stop_after_first = true },
+        ["html"] = { "prettierd", "prettier", stop_after_first = true },
+        ["json"] = { "prettierd", "prettier", stop_after_first = true },
+        ["jsonc"] = { "prettierd", "prettier", stop_after_first = true },
+        ["yaml"] = { "prettierd", "prettier", stop_after_first = true },
+        -- ["markdown"] =  { "prettierd", "prettier", stop_after_first = true },
+        -- ["markdown.mdx"] =  { "prettierd", "prettier", stop_after_first = true },
+        ["graphql"] = { "prettierd", "prettier", stop_after_first = true },
+        ["handlebars"] = { "prettierd", "prettier", stop_after_first = true },
+        python = { "ruff_format", "ruff_fix" },
+      },
+    }
   },
   { 'dmmulroy/ts-error-translator.nvim', config = true },
-  {
-    'mrcjkb/haskell-tools.nvim',
-    version = '^3', -- Recommended
-    ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
-  }
 }

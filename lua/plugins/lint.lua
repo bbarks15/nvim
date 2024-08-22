@@ -11,10 +11,8 @@ return {
       sources = {
         -- null_ls.builtins.diagnostics.ruff,
         -- null_ls.builtins.diagnostics.mypy,
-        -- null_ls.builtins.diagnostics.eslint_d,
-        -- null_ls.builtins.code_actions.eslint_d,
         require("none-ls.diagnostics.eslint_d").with({
-          condition = function(utils)
+          condition = function()
             local bufname = vim.api.nvim_buf_get_name(0)
             local root = require('null-ls.utils').cosmiconfig("eslint", "eslintConfig")(bufname)
 
@@ -22,7 +20,7 @@ return {
           end,
         }),
         require("none-ls.code_actions.eslint_d").with({
-          condition = function(utils)
+          condition = function()
             local bufname = vim.api.nvim_buf_get_name(0)
             local root = require('null-ls.utils').cosmiconfig("eslint", "eslintConfig")(bufname)
 

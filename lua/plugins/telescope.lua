@@ -74,7 +74,7 @@ return {
       local map = require("helpers.keys").map
       local builtin = require("telescope.builtin")
 
-      map("n", "<C-P>", builtin.find_files)
+      map("n", "<C-P>", builtin.git_files)
       map("n", "<leader>P", builtin.commands)
       map("n", "<leader>F", builtin.live_grep)
       map("n", "<leader>r", builtin.oldfiles)
