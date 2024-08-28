@@ -17,7 +17,7 @@ return {
     name = "catppuccin",
     priority = 1000,
     opts = {
-      flavour = "latte",
+      -- flavour = "latte",
       highlight_overrides = {
         mocha = function(_)
           return {

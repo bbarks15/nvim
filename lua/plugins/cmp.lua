@@ -70,30 +70,62 @@ return {
   },
   {
     "L3MON4D3/LuaSnip",
+    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+    build = "make install_jsregexp",
     dependencies = { "rafamadriz/friendly-snippets" },
     config = function()
       local luasnip = require('luasnip')
+
+      vim.snippet.expand = luasnip.lsp_expand
+
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.snippet.active = function(filter)
+        filter = filter or {}
+        filter.direction = filter.direction or 1
+
+        if filter.direction == 1 then
+          return luasnip.expand_or_jumpable()
+        else
+          return luasnip.jumpable(filter.direction)
+        end
+      end
+
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.snippet.jump = function(direction)
+        if direction == 1 then
+          if luasnip.expandable() then
+            return luasnip.expand_or_jump()
+          else
+            return luasnip.jumpable(1) and luasnip.jump(1)
+          end
+        else
+          return luasnip.jumpable(-1) and luasnip.jump(-1)
+        end
+      end
+
+      vim.snippet.stop = luasnip.unlink_current
+
       luasnip.setup({
         history = true,
         updateevents = "TextChanged,TextChangedI",
+        override_builtin = true,
       })
 
-      require("luasnip.loaders.from_vscode").lazy_load()
+      require("luasnip.loaders.from_vscode").lazy_load {
+        exclude = {},
+      }
 
       -- <c-j> is my expansion key
       -- this will expand the current item or jump to the next item within the snippet.
       vim.keymap.set({ "i", "s" }, "<c-j>", function()
-        if luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
-        end
+        return vim.snippet.active { direction = 1 } and vim.snippet.jump(1)
       end, { silent = true })
 
       -- <c-k> is my jump backwards key.
       -- this always moves to the previous item within the snippet
       vim.keymap.set({ "i", "s" }, "<c-k>", function()
-        if luasnip.jumpable(-1) then
-          luasnip.jump(-1)
-        end
+        return vim.snippet.active { direction = -1 } and vim.snippet.jump(-1)
       end, { silent = true })
 
       -- <c-l> is selecting within a list of options.
