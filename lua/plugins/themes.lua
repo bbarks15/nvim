@@ -10,9 +10,6 @@ return {
 
   {
     "catppuccin/nvim",
-    -- dependencies = {
-    --   "nvim-neo-tree/neo-tree.nvim",
-    -- },
     name = "catppuccin",
     priority = 1000,
     opts = {
@@ -31,9 +28,6 @@ return {
           }
         end,
       },
-      integrations = {
-        neotree = true,
-      }
     }
   },
   {
