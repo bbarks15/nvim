@@ -1,4 +1,3 @@
--- Themes
 return {
   {
     "embark-theme/vim",
@@ -57,5 +56,12 @@ return {
   },
   "nyoom-engineering/oxocarbon.nvim",
   "olivercederborg/poimandres.nvim",
-  "zootedb0t/citruszest.nvim",
+  {
+    "zootedb0t/citruszest.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd("colorscheme citruszest")
+    end,
+  },
 }

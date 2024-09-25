@@ -23,12 +23,12 @@ return {
         ensure_installed = {
           "lua_ls",
           'jsonls',
+          "yamlls",
+          "marksman",
           'tailwindcss',
           'cssls',
           'html',
           'svelte',
-          "prismals",
-          "astro"
         },
         automatic_installation = true,
       })
@@ -149,13 +149,10 @@ return {
         'cssls',
         'html',
         'svelte',
-        "prismals",
         "astro",
-        "ocamllsp",
         "pylsp",
-        "gleam",
         "marksman",
-        "zls",
+        "yamlls"
       }
       for _, lsp in ipairs(lsps) do
         require("lspconfig")[lsp].setup({

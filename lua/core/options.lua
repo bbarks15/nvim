@@ -28,7 +28,7 @@ vim.opt.relativenumber = true
 vim.opt.tabstop = 2
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
-vim.opt.laststatus = 2
+vim.opt.laststatus = 3
 vim.opt.scrolloff = 8
 vim.opt.hlsearch = true
 vim.opt.wildmode = { 'longest', 'list', 'full' }
@@ -77,4 +77,4 @@ vim.opt.background = 'dark'
 
 -- Set other options
 -- vim.cmd.colorscheme "catppuccin"
-vim.cmd.colorscheme "citruszest"
+-- vim.cmd.colorscheme "citruszest"
