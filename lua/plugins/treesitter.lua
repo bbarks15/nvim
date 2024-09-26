@@ -22,6 +22,7 @@ return {
           "css",
           "html",
           "lua",
+          "yaml",
           "vim",
           "typescript",
           "javascript",
