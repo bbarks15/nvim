@@ -30,7 +30,7 @@ return {
         },
         highlight = {
           enable = true,
-          additional_vim_regex_highlighting = false
+          additional_vim_regex_highlighting = false,
         },
         indent = {
           enable = true,
@@ -54,9 +54,9 @@ return {
         -- },
       })
 
-      require('ts_context_commentstring').setup {
-        enable_autocmd = false
-      }
+      -- require('ts_context_commentstring').setup {
+      --   enable_autocmd = false
+      -- }
 
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
       parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }

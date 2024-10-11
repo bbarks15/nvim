@@ -113,7 +113,7 @@ return {
       })
 
       require("luasnip.loaders.from_vscode").lazy_load {
-        exclude = {},
+        exclude = {"terraform"},
       }
 
       -- <c-j> is my expansion key

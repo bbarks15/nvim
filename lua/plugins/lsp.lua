@@ -18,6 +18,8 @@ return {
     },
     config = function()
       -- Set up Mason before anything else
+      
+      -- vim.lsp.set_log_level("debug")
       require("mason").setup()
       require("mason-lspconfig").setup({
         ensure_installed = {
@@ -152,7 +154,9 @@ return {
         "astro",
         "pylsp",
         "marksman",
-        "yamlls"
+        "terraformls",
+        "gopls",
+        "yamlls",
       }
       for _, lsp in ipairs(lsps) do
         require("lspconfig")[lsp].setup({
@@ -185,7 +189,10 @@ return {
 
       require("typescript-tools").setup({
         on_attach = on_attach,
-        settings = { publish_diagnostic_on = "insert_leave" },
+        settings = {
+          publish_diagnostic_on = "insert_leave",
+          complete_function_calls = true,
+        },
       })
 
       require("lspconfig")["rust_analyzer"].setup({
@@ -227,6 +234,7 @@ return {
         ["javascriptreact"] = { "prettierd", "prettier", stop_after_first = true },
         ["typescript"] = { "prettierd", "prettier", stop_after_first = true },
         ["typescriptreact"] = { "prettierd", "prettier", stop_after_first = true },
+        ["astro"] = { "prettierd", "prettier", stop_after_first = true },
         ["vue"] = { "prettierd", "prettier", stop_after_first = true },
         ["css"] = { "prettierd", "prettier", stop_after_first = true },
         ["scss"] = { "prettierd", "prettier", stop_after_first = true },
