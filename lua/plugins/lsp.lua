@@ -14,11 +14,15 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "stevearc/conform.nvim",
       "elixir-tools/elixir-tools.nvim",
-      "jmederosalvarado/roslyn.nvim"
+      {
+        "b0o/SchemaStore.nvim",
+        lazy = true,
+        version = false, -- last release is way too old
+      }
     },
     config = function()
       -- Set up Mason before anything else
-      
+
       -- vim.lsp.set_log_level("debug")
       require("mason").setup()
       require("mason-lspconfig").setup({
@@ -146,7 +150,6 @@ return {
 
 
       local lsps = {
-        'jsonls',
         'tailwindcss',
         'cssls',
         'html',
@@ -155,6 +158,7 @@ return {
         "pylsp",
         "marksman",
         "terraformls",
+        "tflint",
         "gopls",
         "yamlls",
       }
@@ -219,16 +223,39 @@ return {
         },
       })
 
-      require("roslyn").setup({
+      require('lspconfig').jsonls.setup {
         on_attach = on_attach,
         capabilities = capabilities,
-      })
+        settings = {
+          json = {
+            schemas = require('schemastore').json.schemas(),
+            validate = { enable = true },
+          },
+        },
+      }
+
+      require('lspconfig').yamlls.setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          yaml = {
+            schemaStore = {
+              -- You must disable built-in schemaStore support if you want to use
+              -- this plugin and its advanced options like `ignore`.
+              enable = false,
+              -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+              url = "",
+            },
+            schemas = require('schemastore').yaml.schemas(),
+          },
+        },
+      }
     end,
   },
   {
     "stevearc/conform.nvim",
     opts = {
-      log_level = vim.log.levels.TRACE,
+      log_level = vim.log.levels.DEBUG,
       formatters_by_ft = {
         ["javascript"] = { "prettierd", "prettier", stop_after_first = true },
         ["javascriptreact"] = { "prettierd", "prettier", stop_after_first = true },
@@ -247,6 +274,7 @@ return {
         -- ["markdown.mdx"] =  { "prettierd", "prettier", stop_after_first = true },
         ["graphql"] = { "prettierd", "prettier", stop_after_first = true },
         ["handlebars"] = { "prettierd", "prettier", stop_after_first = true },
+        go = { "goimports", "gofmt", "golines" },
         python = { "ruff_format", "ruff_fix" },
       },
     }

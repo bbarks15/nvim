@@ -4,7 +4,12 @@ return {
     event = "VeryLazy",
     lazy = false,
     opts = {
-      provider = "copilot"
+      provider = "copilot",
+      windows = {
+        sidebar_header = {
+          enabled = false,
+        },
+      }
     },
     build = "make",
     dependencies = {

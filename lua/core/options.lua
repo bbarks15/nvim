@@ -19,8 +19,8 @@ vim.opt.inccommand = 'split'
 vim.opt.smarttab = true
 vim.opt.breakindent = true
 vim.opt.backspace = { 'start', 'eol', 'indent' }
-vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
-vim.opt.wildignore:append { '*/node_modules/*' }
+vim.opt.path:append('**') -- Finding files - Search down into subfolders
+vim.opt.wildignore:append('*/node_modules/*')
 
 vim.opt.mouse = 'a'
 vim.opt.number = true
@@ -51,7 +51,7 @@ vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 
-vim.opt.clipboard:append { 'unnamedplus' }
+vim.opt.clipboard:append('unnamedplus')
 
 -- Undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
@@ -76,5 +76,5 @@ vim.opt.pumblend = 5
 vim.opt.background = 'dark'
 
 -- Set other options
--- vim.cmd.colorscheme "catppuccin"
+vim.cmd.colorscheme "catppuccin"
 -- vim.cmd.colorscheme "citruszest"
