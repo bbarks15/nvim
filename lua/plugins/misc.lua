@@ -11,11 +11,11 @@ return {
   },
   {
     "echasnovski/mini.surround",
-    config = true,
+    opts = {},
   },
   {
     "echasnovski/mini.pairs",
-    config = true,
+    opts = {},
   },
   {
     "folke/trouble.nvim",
@@ -60,17 +60,22 @@ return {
     end,
   },
   {
-    "kawre/leetcode.nvim",
-    build = ":TSUpdate html",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-      "nvim-lua/plenary.nvim", -- required by telescope
-      "MunifTanjim/nui.nvim",
-    },
-    opts = {
-      ---@type lc.lang
-      lang = "python3",
-    },
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    keys = { "<leader>ti" },
+    config = function()
+      ---@module "ibl"
+      ---@type ibl.config
+      local opts = {
+        enabled = false,
+      }
+
+      require("ibl").setup(opts)
+
+      vim.keymap.set("n", "<leader>ti", function()
+        vim.cmd("IBLToggle")
+      end)
+    end,
   },
-  "almo7aya/openingh.nvim"
+  "almo7aya/openingh.nvim",
 }
