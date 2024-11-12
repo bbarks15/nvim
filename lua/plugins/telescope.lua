@@ -9,6 +9,7 @@ return {
         build = "make",
         cond = vim.fn.executable("make") == 1
       },
+      "benfowler/telescope-luasnip.nvim",
     },
     config = function()
       local function get_pickers(a)
@@ -67,6 +68,8 @@ return {
         pickers = get_pickers(actions),
         extensions = {},
       })
+
+      require('telescope').load_extension('luasnip')
 
       -- Enable telescope fzf native, if installed
       pcall(require("telescope").load_extension, "fzf")

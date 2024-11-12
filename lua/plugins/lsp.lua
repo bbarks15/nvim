@@ -11,7 +11,6 @@ return {
       },
       { "j-hui/fidget.nvim" },
       "folke/neodev.nvim",
-      "hrsh7th/cmp-nvim-lsp",
       "stevearc/conform.nvim",
       "elixir-tools/elixir-tools.nvim",
       {
@@ -144,10 +143,7 @@ return {
         lsp_map("<leader>vd", vim.diagnostic.open_float, bufnr)
       end
 
-      -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local lsps = {
         'tailwindcss',
