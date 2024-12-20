@@ -44,10 +44,10 @@ return {
             scope_incremental = "<c-s>",
           },
         },
-        autotag = {
-          enable = true,
-          enable_close_on_slash = false,
-        },
+        -- autotag = {
+        --   enable = true,
+        --   enable_close_on_slash = false,
+        -- },
         -- context_commentstring = {
         --   enable = true,
         --   enable_autocmd = false,
@@ -57,6 +57,8 @@ return {
       -- require('ts_context_commentstring').setup {
       --   enable_autocmd = false
       -- }
+      --
+      require('nvim-ts-autotag').setup()
 
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
       parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }

@@ -7,30 +7,20 @@ return {
       'rafamadriz/friendly-snippets',
       "L3MON4D3/LuaSnip",
     },
-    build = 'cargo build --release',
-    ---@module 'blink.cmp'
+    build = 'rustup run nightly cargo build --release',
+    ---@module 'blink.cmp
     ---@type blink.cmp.Config
     opts = {
-      keymap = { preset = 'default' },
-      highlight = {
-        -- sets the fallback highlight groups to nvim-cmp's highlight groups
-        -- useful for when your theme doesn't support blink.cmp
-        -- will be removed in a future release, assuming themes add support
+      appearance = {
         use_nvim_cmp_as_default = true,
+        kind_icons = require("core.icons").kind
       },
-      nerd_font_variant = 'normal',
-
-      accept = { auto_brackets = { enabled = true } },
-      trigger = { signature_help = { enabled = false } },
-
       sources = {
-        completion = {
-          enabled_providers = { 'lsp', 'path', 'snippets', }
-        }
+        default = { 'lsp', 'path', 'snippets', },
+        cmdline = {}
       },
-
-      windows = {
-        autocomplete = {
+      completion = {
+        menu = {
           border = 'rounded',
           winhighlight = 'Normal:Normal,FloatBorder:Normal',
           draw = {
@@ -38,14 +28,14 @@ return {
           },
         },
         documentation = {
-          border = 'rounded',
-          winhighlight = 'Normal:Normal,FloatBorder:Normal',
-          max_width = 60,
           auto_show = true,
-        }
+          window = {
+            border = 'single',
+            winhighlight = 'Normal:Normal,FloatBorder:Normal',
+            max_width = 60,
+          }
+        },
       },
-
-      kind_icons = require("core.icons").kind
     },
   },
   {
@@ -95,6 +85,10 @@ return {
       require("luasnip.loaders.from_vscode").lazy_load {
         exclude = { "terraform" },
       }
+
+      for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/snippets/*.lua", true)) do
+        loadfile(ft_path)()
+      end
 
       vim.keymap.set({ "i", "s" }, "<c-j>", function()
         return vim.snippet.active { direction = 1 } and vim.snippet.jump(1)

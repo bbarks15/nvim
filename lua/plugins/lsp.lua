@@ -206,13 +206,16 @@ return {
         },
       })
 
-      require("elixir").setup({
+      local elixir = require("elixir")
+      local elixirls = require("elixir.elixirls")
+
+      elixir.setup({
         elixirls = {
           on_attach = on_attach,
           enable = true,
-          settings = require("elixir.elixirls").settings {
+          settings = elixirls.settings {
             dialyzerEnabled = true,
-            fetchDeps = false,
+            fetchDeps = true,
             enableTestLenses = false,
             suggestSpecs = false,
           },
