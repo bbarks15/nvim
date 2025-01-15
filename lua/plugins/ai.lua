@@ -4,11 +4,9 @@ return {
     event = "VeryLazy",
     lazy = false,
     opts = {
-      provider = "copilot",
+      provider = "claude",
       windows = {
-        sidebar_header = {
-          enabled = false,
-        },
+        sidebar_header = { enabled = false, },
       }
     },
     build = "make",
@@ -18,7 +16,6 @@ return {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       "nvim-tree/nvim-web-devicons",
-      "zbirenbaum/copilot.lua",
       {
         -- support for image pasting
         "HakonHarnes/img-clip.nvim",

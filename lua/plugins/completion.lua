@@ -15,11 +15,25 @@ return {
         use_nvim_cmp_as_default = true,
         kind_icons = require("core.icons").kind
       },
+      keymap = {
+        preset = "default",
+        ['<Tab>'] = {},
+        ['<S-Tab>'] = {},
+      },
       sources = {
-        default = { 'lsp', 'path', 'snippets', },
+        default = {
+          'lsp',
+          'path',
+          -- 'snippets',
+        },
         cmdline = {}
       },
       completion = {
+        accept = {
+          auto_brackets = {
+            enabled = false
+          }
+        },
         menu = {
           border = 'rounded',
           winhighlight = 'Normal:Normal,FloatBorder:Normal',
@@ -53,9 +67,9 @@ return {
         filter.direction = filter.direction or 1
 
         if filter.direction == 1 then
-          return ls.expand_or_jumpable()
+          return ls.expand_or_locally_jumpable()
         else
-          return ls.jumpable(filter.direction)
+          return ls.locally_jumpable(filter.direction)
         end
       end
 

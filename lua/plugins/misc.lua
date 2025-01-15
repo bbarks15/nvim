@@ -78,4 +78,17 @@ return {
     end,
   },
   "almo7aya/openingh.nvim",
+  -- {
+  --   "folke/snacks.nvim",
+  --   ---@type snacks.Config
+  --   opts = {
+  --     lazygit = {
+  --       win = {
+  --         style = {
+  --           border = "rounded"
+  --         }
+  --       }
+  --     }
+  --   }
+  -- }
 }
