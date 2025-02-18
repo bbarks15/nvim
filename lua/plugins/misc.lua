@@ -78,6 +78,16 @@ return {
     end,
   },
   "almo7aya/openingh.nvim",
+  {
+    'MagicDuck/grug-far.nvim',
+    keys = {
+      {
+        "<leader>fr",
+        function() require('grug-far').toggle_instance({ instanceName = "far", staticTitle = "Find and Replace" }) end
+      }
+    },
+    opts = {},
+  },
   -- {
   --   "folke/snacks.nvim",
   --   ---@type snacks.Config

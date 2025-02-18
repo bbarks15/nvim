@@ -1,7 +1,5 @@
 -- vim.cmd("autocmd!")
 
-vim.opt.modifiable = true
-
 vim.scriptencoding = 'utf-8'
 vim.opt.encoding = 'utf-8'
 vim.opt.fileencoding = 'utf-8'
@@ -20,7 +18,7 @@ vim.opt.smarttab = true
 vim.opt.breakindent = true
 vim.opt.backspace = { 'start', 'eol', 'indent' }
 vim.opt.path:append('**') -- Finding files - Search down into subfolders
-vim.opt.wildignore:append('*/node_modules/*')
+-- vim.opt.wildignore:append('*/node_modules/*')
 
 vim.opt.mouse = 'a'
 vim.opt.number = true
@@ -31,7 +29,7 @@ vim.opt.shiftwidth = 2
 vim.opt.laststatus = 3
 vim.opt.scrolloff = 8
 vim.opt.hlsearch = true
-vim.opt.wildmode = { 'longest', 'list', 'full' }
+-- vim.opt.wildmode = { 'longest', 'list', 'full' }
 vim.opt.formatoptions = "tqn"
 -- vim.opt.textwidth = 80
 vim.opt.wrap = false -- No Wrap lines
@@ -71,7 +69,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.opt.cursorline = true
 vim.opt.termguicolors = true
 vim.opt.winblend = 0
-vim.opt.wildoptions = 'pum'
+-- vim.opt.wildoptions = 'pum'
 vim.opt.pumblend = 5
 vim.opt.background = 'dark'
 

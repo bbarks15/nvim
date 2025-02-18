@@ -44,6 +44,7 @@ return {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
+    event = "InsertEnter",
     opts = {
       panel = {
         auto_refresh = true,

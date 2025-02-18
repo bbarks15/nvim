@@ -7,7 +7,6 @@ return {
     "rose-pine/neovim",
     name = "rose-pine",
   },
-
   {
     "catppuccin/nvim",
     name = "catppuccin",
@@ -52,7 +51,7 @@ return {
   {
     "zootedb0t/citruszest.nvim",
     lazy = false,
-    priority = 1000,
+    -- priority = 1000,
     -- config = function()
     --   vim.cmd("colorscheme citruszest")
     -- end,

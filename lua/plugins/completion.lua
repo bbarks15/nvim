@@ -7,6 +7,7 @@ return {
       'rafamadriz/friendly-snippets',
       "L3MON4D3/LuaSnip",
     },
+    -- version = '*',
     build = 'rustup run nightly cargo build --release',
     ---@module 'blink.cmp
     ---@type blink.cmp.Config
@@ -26,7 +27,6 @@ return {
           'path',
           -- 'snippets',
         },
-        cmdline = {}
       },
       completion = {
         accept = {
@@ -40,6 +40,9 @@ return {
           draw = {
             columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
           },
+          auto_show = function(ctx)
+            return ctx.mode ~= "cmdline" or not vim.tbl_contains({ '/', '?' }, vim.fn.getcmdtype())
+          end,
         },
         documentation = {
           auto_show = true,

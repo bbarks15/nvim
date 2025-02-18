@@ -157,6 +157,7 @@ return {
         "tflint",
         "gopls",
         "yamlls",
+        "zls",
       }
       for _, lsp in ipairs(lsps) do
         require("lspconfig")[lsp].setup({
@@ -190,8 +191,7 @@ return {
       require("typescript-tools").setup({
         on_attach = on_attach,
         settings = {
-          publish_diagnostic_on = "insert_leave",
-          complete_function_calls = true,
+          complete_function_calls = false,
         },
       })
 
@@ -274,7 +274,7 @@ return {
         ["graphql"] = { "prettierd", "prettier", stop_after_first = true },
         ["handlebars"] = { "prettierd", "prettier", stop_after_first = true },
         go = { "goimports", "gofmt", "golines" },
-        python = { "ruff_format", "ruff_fix" },
+        -- python = { "ruff_format", "ruff_fix" },
       },
     }
   },
