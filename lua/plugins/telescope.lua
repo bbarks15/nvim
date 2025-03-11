@@ -24,6 +24,12 @@ return {
             hidden = true,
             previewer = false,
           },
+          lsp_document_symbols = {
+            theme = "dropdown",
+            hidden = true,
+            symbol_width = 50,
+            previewer = false,
+          },
           buffers = {
             theme = "dropdown",
             previewer = false,

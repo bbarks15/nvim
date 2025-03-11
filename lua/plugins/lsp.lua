@@ -274,7 +274,7 @@ return {
         ["graphql"] = { "prettierd", "prettier", stop_after_first = true },
         ["handlebars"] = { "prettierd", "prettier", stop_after_first = true },
         go = { "goimports", "gofmt", "golines" },
-        -- python = { "ruff_format", "ruff_fix" },
+        python = { "ruff_format", "ruff_fix" },
       },
     }
   },

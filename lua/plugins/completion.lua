@@ -7,8 +7,8 @@ return {
       'rafamadriz/friendly-snippets',
       "L3MON4D3/LuaSnip",
     },
-    -- version = '*',
-    build = 'rustup run nightly cargo build --release',
+    version = '*',
+    -- build = 'rustup run nightly cargo build --release',
     ---@module 'blink.cmp
     ---@type blink.cmp.Config
     opts = {
@@ -35,6 +35,7 @@ return {
           }
         },
         menu = {
+
           border = 'rounded',
           winhighlight = 'Normal:Normal,FloatBorder:Normal',
           draw = {
