@@ -53,94 +53,104 @@ return {
 
       -- Set up cool signs for diagnostics
       local icons = require("core.icons")
-      local signs = {
-        Error = icons.diagnostics.Error,
-        Warn = icons.diagnostics.Warning,
-        Hint = icons.diagnostics.Hint,
-        Info = icons.diagnostics.Information,
-      }
 
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-      end
+      require("helpers.keys").map(
+        { "n", "x", "v" },
+        "<leader>vd",
+        function()
+          vim.diagnostic.open_float({ border = "single" })
+        end,
+        "Show diagnostic"
+      )
+
 
       -- Diagnostic config
-      local config = {
-        virtual_text = { prefix = "●" },
-        signs = { active = signs, },
+      vim.diagnostic.config({
+        virtual_text = {
+          source = 'if_many',
+          spacing = 2,
+          format = function(diagnostic)
+            local diagnostic_message = {
+              [vim.diagnostic.severity.ERROR] = diagnostic.message,
+              [vim.diagnostic.severity.WARN] = diagnostic.message,
+              [vim.diagnostic.severity.INFO] = diagnostic.message,
+              [vim.diagnostic.severity.HINT] = diagnostic.message,
+            }
+            return diagnostic_message[diagnostic.severity]
+          end,
+        },
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+            [vim.diagnostic.severity.WARN] = icons.diagnostics.Warning,
+            [vim.diagnostic.severity.INFO] = icons.diagnostics.Information,
+            [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+          },
+        },
         update_in_insert = true,
         underline = true,
         severity_sort = true,
         float = {
-          focusable = true,
-          style = "minimal",
-          border = "rounded",
-          source = "always",
+          border = "single",
+          source = "if_many",
           header = "",
           prefix = "",
         },
-      }
-      vim.diagnostic.config(config)
-
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
-
-      vim.lsp.handlers["textDocument/signatureHelp"] =
-          vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single" })
-
-      vim.lsp.handlers["textDocument/publishDiagnostics"] =
-          vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-            underline = true,
-            update_in_insert = true,
-            virtual_text = { spacing = 4, prefix = "●" },
-            severity_sort = true,
-          })
+      })
 
       local on_attach = function(_, bufnr)
         local lsp_map = require("helpers.keys").lsp_map
 
-        local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
-        if
-            filetype == "typescript"
-            or filetype == "typescriptreact"
-            or filetype == "typescript.tsx"
-            or filetype == "javascript"
-            or filetype == "javascriptreact"
-        then
-          lsp_map("gd", require("typescript-tools.api").go_to_source_definition, bufnr)
-        else
-          lsp_map("gd", vim.lsp.buf.definition, bufnr)
-        end
+        -- local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
+        -- if
+        --     filetype == "typescript"
+        --     or filetype == "typescriptreact"
+        --     or filetype == "typescript.tsx"
+        --     or filetype == "javascript"
+        --     or filetype == "javascriptreact"
+        -- then
+        --   lsp_map("gd", require("typescript-tools.api").go_to_source_definition, bufnr)
+        -- else
+        lsp_map("gd", vim.lsp.buf.definition, bufnr)
+        -- end
 
-        lsp_map("K", vim.lsp.buf.hover, bufnr)
+        lsp_map("K", function()
+          vim.lsp.buf.hover({ border = "single" })
+        end, bufnr)
 
         lsp_map("gT", vim.lsp.buf.type_definition, bufnr)
         lsp_map("gD", vim.lsp.buf.declaration, bufnr)
         lsp_map("gi", vim.lsp.buf.implementation, bufnr)
         lsp_map("gr", vim.lsp.buf.references, bufnr)
 
-        lsp_map("<leader>cs", vim.lsp.buf.signature_help, bufnr)
+        lsp_map("<leader>cs", function()
+          vim.lsp.buf.signature_help({ border = "single" })
+        end, bufnr)
+
         lsp_map("<leader>cr", vim.lsp.buf.rename, bufnr)
         lsp_map("<leader>cl", vim.lsp.codelens.run, bufnr)
+
         vim.keymap.set({ "n", "x", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr })
 
         lsp_map("<leader>i", vim.lsp.buf.incoming_calls, bufnr)
         lsp_map("<leader>o", vim.lsp.buf.outgoing_calls, bufnr)
-        lsp_map(
-          "<leader>ff",
-          function()
-            require("conform").format({
-              bufnr = bufnr,
-              async = true,
-              lsp_fallback = true,
-            })
-          end,
-          bufnr
-        )
+        -- lsp_map(
+        --   "<leader>ff",
+        --   function()
+        --     require("conform").format({ bufnr = bufnr, async = true, lsp_fallback = true, })
+        --   end,
+        --   bufnr
+        -- )
 
-        lsp_map("[d", vim.diagnostic.goto_prev, bufnr)
-        lsp_map("]d", vim.diagnostic.goto_next, bufnr)
-        lsp_map("<leader>vd", vim.diagnostic.open_float, bufnr)
+        lsp_map("[d", function()
+          vim.diagnostic.jump({ count = -1, float = true })
+        end, bufnr)
+
+        lsp_map("]d", function()
+          vim.diagnostic.jump({ count = 1, float = true })
+        end, bufnr)
+
+        -- lsp_map("<leader>vd", vim.diagnostic.open_float, bufnr)
       end
 
       local capabilities = require('blink.cmp').get_lsp_capabilities()
@@ -158,6 +168,7 @@ return {
         "gopls",
         "yamlls",
         "zls",
+        "biome"
       }
       for _, lsp in ipairs(lsps) do
         require("lspconfig")[lsp].setup({
@@ -253,21 +264,43 @@ return {
   },
   {
     "stevearc/conform.nvim",
+    keys = {
+      {
+        "<leader>ff",
+        function()
+          require("conform").format({ async = true, lsp_fallback = true })
+        end,
+        desc = "Format"
+      },
+    },
     opts = {
       log_level = vim.log.levels.DEBUG,
+      formatters = {
+        biome = {
+          require_cwd = true,
+          args = {
+            "check",
+            "--write",
+            "--linter-enabled=false",
+            "--stdin-file-path",
+            "$FILENAME",
+          },
+        },
+      },
       formatters_by_ft = {
-        ["javascript"] = { "prettierd", "prettier", stop_after_first = true },
-        ["javascriptreact"] = { "prettierd", "prettier", stop_after_first = true },
-        ["typescript"] = { "prettierd", "prettier", stop_after_first = true },
-        ["typescriptreact"] = { "prettierd", "prettier", stop_after_first = true },
+        ["sql"] = { "sqlfluff" },
+        ["javascript"] = { "biome", "prettierd", "prettier", stop_after_first = true },
+        ["javascriptreact"] = { "biome", "prettierd", "prettier", stop_after_first = true },
+        ["typescript"] = { "biome", "prettierd", "prettier", stop_after_first = true },
+        ["typescriptreact"] = { "biome", "prettierd", "prettier", stop_after_first = true },
         ["astro"] = { "prettierd", "prettier", stop_after_first = true },
         ["vue"] = { "prettierd", "prettier", stop_after_first = true },
-        ["css"] = { "prettierd", "prettier", stop_after_first = true },
+        ["css"] = { "biome", "prettierd", "prettier", stop_after_first = true },
         ["scss"] = { "prettierd", "prettier", stop_after_first = true },
         ["less"] = { "prettierd", "prettier", stop_after_first = true },
         ["html"] = { "prettierd", "prettier", stop_after_first = true },
-        ["json"] = { "prettierd", "prettier", stop_after_first = true },
-        ["jsonc"] = { "prettierd", "prettier", stop_after_first = true },
+        ["json"] = { "biome", "prettierd", "prettier", stop_after_first = true },
+        ["jsonc"] = { "biome", "prettierd", "prettier", stop_after_first = true },
         ["yaml"] = { "prettierd", "prettier", stop_after_first = true },
         -- ["markdown"] =  { "prettierd", "prettier", stop_after_first = true },
         -- ["markdown.mdx"] =  { "prettierd", "prettier", stop_after_first = true },
@@ -278,5 +311,5 @@ return {
       },
     }
   },
-  { 'dmmulroy/ts-error-translator.nvim', config = true },
+  { 'dmmulroy/ts-error-translator.nvim', opts = {} },
 }

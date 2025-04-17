@@ -6,6 +6,9 @@ return {
   {
     "rose-pine/neovim",
     name = "rose-pine",
+    opts = {
+      variant = "dawn",
+    }
   },
   {
     "catppuccin/nvim",
@@ -20,10 +23,11 @@ return {
             CursorLineSign = { bg = "#2a2b3c" },
           }
         end,
-        latte = function(_)
+        latte = function(colors)
           return {
             CursorLineNr = { bg = "#e9ebf1" },
             CursorLineSign = { bg = "#e9ebf1" },
+            NormalFloat = { bg = colors.base },
           }
         end,
       },

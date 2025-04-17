@@ -4,13 +4,13 @@ return {
   opts = {
     options = {
       icons_enabled = true,
-      -- section_separators = { left = "", right = "" },
+      section_separators = { left = "", right = "" },
       component_separators = "|",
       disabled_filetypes = { "packer", "NvimTree", "alpha", "neo-tree" },
     },
     sections = {
-      -- lualine_a = { { "mode", separator = { left = "" }, right_padding = 2 } },
-      lualine_a = { { "mode", right_padding = 2 } },
+      lualine_a = { { "mode", separator = { left = "", right = "" }, right_padding = 2 } },
+      -- lualine_a = { { "mode", right_padding = 2 } },
       -- lualine_b = { "branch" },
       lualine_b = {},
       lualine_c = {
