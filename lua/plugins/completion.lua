@@ -35,15 +35,14 @@ return {
           }
         },
         menu = {
-
           border = 'rounded',
           winhighlight = 'Normal:Normal,FloatBorder:Normal',
           draw = {
             columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
           },
-          auto_show = function(ctx)
-            return ctx.mode ~= "cmdline" or not vim.tbl_contains({ '/', '?' }, vim.fn.getcmdtype())
-          end,
+          -- auto_show = function(ctx)
+          --   return ctx.mode ~= "cmdline" or not vim.tbl_contains({ '/', '?' }, vim.fn.getcmdtype())
+          -- end,
         },
         documentation = {
           auto_show = true,

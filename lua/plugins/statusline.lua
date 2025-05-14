@@ -6,7 +6,8 @@ return {
       icons_enabled = true,
       section_separators = { left = "", right = "" },
       component_separators = "|",
-      disabled_filetypes = { "packer", "NvimTree", "alpha", "neo-tree" },
+      disabled_filetypes = { "packer", "NvimTree", "alpha", "neo-tree", "Avante", "AvanteInput", "AvanteSelectedFiles" },
+      -- theme = "tokyonight",
     },
     sections = {
       lualine_a = { { "mode", separator = { left = "", right = "" }, right_padding = 2 } },

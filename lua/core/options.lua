@@ -74,6 +74,7 @@ vim.opt.pumblend = 5
 vim.opt.background = 'light'
 
 -- Set other options
-vim.cmd.colorscheme "catppuccin"
+-- vim.cmd.colorscheme "catppuccin"
 -- vim.cmd.colorscheme "citruszest"
 -- vim.cmd.colorscheme "rose-pine"
+vim.cmd.colorscheme "tokyonight-night"

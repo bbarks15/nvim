@@ -5,10 +5,10 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      {
-        "pmizio/typescript-tools.nvim",
-        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-      },
+      -- {
+      --   "pmizio/typescript-tools.nvim",
+      --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+      -- },
       { "j-hui/fidget.nvim" },
       "folke/neodev.nvim",
       "stevearc/conform.nvim",
@@ -22,7 +22,7 @@ return {
     config = function()
       -- Set up Mason before anything else
 
-      -- vim.lsp.set_log_level("debug")
+      vim.lsp.set_log_level("debug")
       require("mason").setup()
       require("mason-lspconfig").setup({
         ensure_installed = {
@@ -32,10 +32,12 @@ return {
           "marksman",
           'tailwindcss',
           'cssls',
+          "ts_ls",
           'html',
           'svelte',
         },
         automatic_installation = true,
+        automatic_enable = false,
       })
 
       -- Neodev setup before LSP config
@@ -43,12 +45,11 @@ return {
 
       -- Turn on LSP status information
       require("fidget").setup({
-        -- sources = {
-        --   ["null-ls"] = { ignore = true, },
-        -- },
-        -- window = {
-        --   blend = 0,
-        -- },
+        notification = {
+          window = {
+            winblend = 0,
+          }
+        }
       })
 
       -- Set up cool signs for diagnostics
@@ -62,7 +63,6 @@ return {
         end,
         "Show diagnostic"
       )
-
 
       -- Diagnostic config
       vim.diagnostic.config({
@@ -98,131 +98,330 @@ return {
         },
       })
 
-      local on_attach = function(_, bufnr)
-        local lsp_map = require("helpers.keys").lsp_map
+      -- local on_attach = function(_, bufnr)
+      --   local lsp_map = require("helpers.keys").lsp_map
+      --
+      --   -- local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
+      --   -- if
+      --   --     filetype == "typescript"
+      --   --     or filetype == "typescriptreact"
+      --   --     or filetype == "typescript.tsx"
+      --   --     or filetype == "javascript"
+      --   --     or filetype == "javascriptreact"
+      --   -- then
+      --   --   lsp_map("gd", require("typescript-tools.api").go_to_source_definition, bufnr)
+      --   -- else
+      --   lsp_map("gd", vim.lsp.buf.definition, bufnr)
+      --   -- end
+      --
+      --   lsp_map("K", function()
+      --     vim.lsp.buf.hover({ border = "single" })
+      --   end, bufnr)
+      --
+      --   lsp_map("gT", vim.lsp.buf.type_definition, bufnr)
+      --   lsp_map("gD", vim.lsp.buf.declaration, bufnr)
+      --   lsp_map("gi", vim.lsp.buf.implementation, bufnr)
+      --   lsp_map("gr", vim.lsp.buf.references, bufnr)
+      --
+      --   lsp_map("<leader>cs", function()
+      --     vim.lsp.buf.signature_help({ border = "single" })
+      --   end, bufnr)
+      --
+      --   lsp_map("<leader>cr", vim.lsp.buf.rename, bufnr)
+      --   lsp_map("<leader>cl", vim.lsp.codelens.run, bufnr)
+      --
+      --   vim.keymap.set({ "n", "x", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr })
+      --
+      --   lsp_map("<leader>i", vim.lsp.buf.incoming_calls, bufnr)
+      --   lsp_map("<leader>o", vim.lsp.buf.outgoing_calls, bufnr)
+      --
+      --   -- lsp_map("[d", function()
+      --   --   vim.diagnostic.jump({ count = -1, float = true })
+      --   -- end, bufnr)
+      --   --
+      --   -- lsp_map("]d", function()
+      --   --   vim.diagnostic.jump({ count = 1, float = true })
+      --   -- end, bufnr)
+      -- end
 
-        -- local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
-        -- if
-        --     filetype == "typescript"
-        --     or filetype == "typescriptreact"
-        --     or filetype == "typescript.tsx"
-        --     or filetype == "javascript"
-        --     or filetype == "javascriptreact"
-        -- then
-        --   lsp_map("gd", require("typescript-tools.api").go_to_source_definition, bufnr)
-        -- else
-        lsp_map("gd", vim.lsp.buf.definition, bufnr)
-        -- end
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('brandon-lsp-attach', { clear = true }),
+        callback = function(event)
+          local bufnr = event.buf
+          local lsp_map = require("helpers.keys").lsp_map
 
-        lsp_map("K", function()
-          vim.lsp.buf.hover({ border = "single" })
-        end, bufnr)
+          -- local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
+          -- if
+          --     filetype == "typescript"
+          --     or filetype == "typescriptreact"
+          --     or filetype == "typescript.tsx"
+          --     or filetype == "javascript"
+          --     or filetype == "javascriptreact"
+          -- then
+          --   lsp_map("gd", require("typescript-tools.api").go_to_source_definition, bufnr)
+          -- else
+          lsp_map("gd", vim.lsp.buf.definition, bufnr)
+          -- end
 
-        lsp_map("gT", vim.lsp.buf.type_definition, bufnr)
-        lsp_map("gD", vim.lsp.buf.declaration, bufnr)
-        lsp_map("gi", vim.lsp.buf.implementation, bufnr)
-        lsp_map("gr", vim.lsp.buf.references, bufnr)
+          lsp_map("K", function()
+            vim.lsp.buf.hover({ border = "single" })
+          end, bufnr)
 
-        lsp_map("<leader>cs", function()
-          vim.lsp.buf.signature_help({ border = "single" })
-        end, bufnr)
+          lsp_map("gT", vim.lsp.buf.type_definition, bufnr)
+          lsp_map("gD", vim.lsp.buf.declaration, bufnr)
+          lsp_map("gi", vim.lsp.buf.implementation, bufnr)
+          lsp_map("gr", vim.lsp.buf.references, bufnr)
 
-        lsp_map("<leader>cr", vim.lsp.buf.rename, bufnr)
-        lsp_map("<leader>cl", vim.lsp.codelens.run, bufnr)
+          lsp_map("<leader>cs", function()
+            vim.lsp.buf.signature_help({ border = "single" })
+          end, bufnr)
 
-        vim.keymap.set({ "n", "x", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr })
+          lsp_map("<leader>cr", vim.lsp.buf.rename, bufnr)
+          lsp_map("<leader>cl", vim.lsp.codelens.run, bufnr)
 
-        lsp_map("<leader>i", vim.lsp.buf.incoming_calls, bufnr)
-        lsp_map("<leader>o", vim.lsp.buf.outgoing_calls, bufnr)
-        -- lsp_map(
-        --   "<leader>ff",
-        --   function()
-        --     require("conform").format({ bufnr = bufnr, async = true, lsp_fallback = true, })
-        --   end,
-        --   bufnr
-        -- )
+          vim.keymap.set({ "n", "x", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr })
 
-        lsp_map("[d", function()
-          vim.diagnostic.jump({ count = -1, float = true })
-        end, bufnr)
+          lsp_map("<leader>i", vim.lsp.buf.incoming_calls, bufnr)
+          lsp_map("<leader>o", vim.lsp.buf.outgoing_calls, bufnr)
 
-        lsp_map("]d", function()
-          vim.diagnostic.jump({ count = 1, float = true })
-        end, bufnr)
+          -- local map = function(keys, func, desc, mode)
+          --   mode = mode or 'n'
+          --   vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+          -- end
+          --
+          -- map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+          -- map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
+          -- map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+          -- map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+          -- map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          -- map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          -- map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
+          -- map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
+          -- map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
+          -- This may be unwanted, since they displace some of your code
+          -- if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+          --   map('<leader>th', function()
+          --     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+          --   end, '[T]oggle Inlay [H]ints')
+          -- end
+        end,
+      })
 
-        -- lsp_map("<leader>vd", vim.diagnostic.open_float, bufnr)
-      end
 
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local lsps = {
-        'tailwindcss',
-        'cssls',
-        'html',
-        'svelte',
-        "astro",
-        "pylsp",
-        "marksman",
-        "terraformls",
-        "tflint",
-        "gopls",
-        "yamlls",
-        "zls",
-        "biome"
-      }
-      for _, lsp in ipairs(lsps) do
-        require("lspconfig")[lsp].setup({
-          on_attach = on_attach,
-          capabilities = capabilities
-        })
-      end
-
-      require("lspconfig")["lua_ls"].setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          Lua = {
-            completion = {
-              callSnippet = "Replace",
+        astro = {},
+        biome = {},
+        gopls = {},
+        marksman = {},
+        pyright = {},
+        terraformls = {},
+        tflint = {},
+        yamlls = {},
+        zls = {},
+        cssls = {},
+        html = {},
+        svelte = {},
+        tailwindcss = {},
+        vtsls = {
+          filetypes = {
+            "javascript",
+            "javascriptreact",
+            "javascript.jsx",
+            "typescript",
+            "typescriptreact",
+            "typescript.tsx",
+          },
+          settings = {
+            complete_function_calls = true,
+            vtsls = {
+              enableMoveToFileCodeAction = true,
+              autoUseWorkspaceTsdk = true,
+              experimental = {
+                completion = {
+                  enableServerSideFuzzyMatch = true,
+                },
+              },
             },
-            diagnostics = {
-              globals = { "vim" },
+            typescript = {
+              updateImportsOnFileMove = { enabled = "always" },
+              suggest = {
+                completeFunctionCalls = true,
+              },
             },
-            workspace = {
-              checkThirdParty = false,
-              library = {
-                [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                [vim.fn.stdpath("config") .. "/lua"] = true,
+            javascript = {
+              updateImportsOnFileMove = { enabled = "always" },
+              suggest = {
+                completeFunctionCalls = true,
               },
             },
           },
         },
-      })
-
-      require("typescript-tools").setup({
-        on_attach = on_attach,
-        settings = {
-          complete_function_calls = false,
-        },
-      })
-
-      require("lspconfig")["rust_analyzer"].setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-        cmd = { "rustup", "run", "stable", "rust-analyzer" },
-        settings = {
-          ["rust-analyzer"] = {
-            checkOnSave = { command = "clippy" },
+        lua_ls = {
+          settings = {
+            Lua = {
+              completion = {
+                callSnippet = "Replace",
+              },
+              diagnostics = {
+                globals = { "vim" },
+              },
+              workspace = {
+                checkThirdParty = false,
+                library = {
+                  [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                  [vim.fn.stdpath("config") .. "/lua"] = true,
+                },
+              },
+            },
           },
         },
-      })
+        volar = {
+          filetypes = { 'vue' },
+          init_options = {
+            typescript = {
+              tsdk = vim.fn.stdpath 'data' .. '/mason/packages/typescript-language-server/node_modules/typescript/lib',
+            },
+            vue = {
+              hybridMode = false,
+            },
+          },
+        },
+        rust_analyzer = {
+          cmd = { "rustup", "run", "stable", "rust-analyzer" },
+        },
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require('schemastore').json.schemas(),
+              validate = { enable = true },
+            },
+          },
+        },
+        yammls = {
+          settings = {
+            yaml = {
+              schemaStore = {
+                -- You must disable built-in schemaStore support if you want to use
+                -- this plugin and its advanced options like `ignore`.
+                enable = false,
+                -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+                url = "",
+              },
+              schemas = require('schemastore').yaml.schemas(),
+            },
+          },
+        }
+      }
+
+      for server, config in pairs(lsps) do
+        config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
+        vim.lsp.config(server, config)
+        vim.lsp.enable(server)
+      end
+
+      -- vim.lsp.config("lua_ls", {
+      --   capabilities = capabilities,
+      --   settings = {
+      --     Lua = {
+      --       completion = {
+      --         callSnippet = "Replace",
+      --       },
+      --       diagnostics = {
+      --         globals = { "vim" },
+      --       },
+      --       workspace = {
+      --         checkThirdParty = false,
+      --         library = {
+      --           [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+      --           [vim.fn.stdpath("config") .. "/lua"] = true,
+      --         },
+      --       },
+      --     },
+      --   },
+      -- })
+      -- vim.lsp.enable("lua_ls")
+
+      -- require("helpers.keys").map({ "n" }, "<leader>T",
+      --   function() vim.lsp.buf_request(0, "workspace/executeCommand", { command = "typescript.selectTypeScriptVersion" }) end)
+
+
+      -- vim.lsp.config("vtsls", {
+      --   filetypes = {
+      --     "javascript",
+      --     "javascriptreact",
+      --     "javascript.jsx",
+      --     "typescript",
+      --     "typescriptreact",
+      --     "typescript.tsx",
+      --     -- "vue", -- volar uses the typescript language server in hybrid mode
+      --   },
+      --   settings = {
+      --     complete_function_calls = true,
+      --     vtsls = {
+      --       enableMoveToFileCodeAction = true,
+      --       autoUseWorkspaceTsdk = true,
+      --       experimental = {
+      --         completion = {
+      --           enableServerSideFuzzyMatch = true,
+      --         },
+      --       },
+      --       -- tsserver = {
+      --       --   globalPlugins = {
+      --       --     {
+      --       --       name = "@vue/typescript-plugin",
+      --       --       location = vim.fn.stdpath 'data' ..
+      --       --           '/mason/packages/vue-language-server/node_modules/@vue/language-server',
+      --       --       languages = { "vue" },
+      --       --       configNamespace = "typescript",
+      --       --       enableForWorkspaceTypeScriptVersions = true,
+      --       --     },
+      --       --   },
+      --       -- },
+      --     },
+      --     typescript = {
+      --       updateImportsOnFileMove = { enabled = "always" },
+      --       suggest = {
+      --         completeFunctionCalls = true,
+      --       },
+      --     },
+      --     javascript = {
+      --       updateImportsOnFileMove = { enabled = "always" },
+      --       suggest = {
+      --         completeFunctionCalls = true,
+      --       },
+      --     },
+      --   },
+      -- })
+      -- vim.lsp.enable("vtsls")
+
+      -- vim.lsp.config('volar', {
+      --   capabilities = capabilities,
+      --   filetypes = { 'vue' },
+      --   init_options = {
+      --     typescript = {
+      --       tsdk = vim.fn.stdpath 'data' .. '/mason/packages/typescript-language-server/node_modules/typescript/lib',
+      --     },
+      --     vue = {
+      --       hybridMode = false,
+      --     },
+      --   },
+      -- })
+      -- vim.lsp.enable('volar')
+
+
+      -- vim.lsp.config('rust_analyzer', {
+      --   capabilities = capabilities,
+      --   cmd = { "rustup", "run", "stable", "rust-analyzer" },
+      -- })
+      -- vim.lsp.enable("rust_analyzer")
 
       local elixir = require("elixir")
       local elixirls = require("elixir.elixirls")
 
       elixir.setup({
         elixirls = {
-          on_attach = on_attach,
           enable = true,
           settings = elixirls.settings {
             dialyzerEnabled = true,
@@ -233,33 +432,33 @@ return {
         },
       })
 
-      require('lspconfig').jsonls.setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          json = {
-            schemas = require('schemastore').json.schemas(),
-            validate = { enable = true },
-          },
-        },
-      }
+      -- vim.lsp.config('jsonls', {
+      --   capabilities = capabilities,
+      --   settings = {
+      --     json = {
+      --       schemas = require('schemastore').json.schemas(),
+      --       validate = { enable = true },
+      --     },
+      --   },
+      -- })
+      -- vim.lsp.enable('jsonls')
 
-      require('lspconfig').yamlls.setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          yaml = {
-            schemaStore = {
-              -- You must disable built-in schemaStore support if you want to use
-              -- this plugin and its advanced options like `ignore`.
-              enable = false,
-              -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-              url = "",
-            },
-            schemas = require('schemastore').yaml.schemas(),
-          },
-        },
-      }
+      -- vim.lsp.config('yamlls', {
+      --   capabilities = capabilities,
+      --   settings = {
+      --     yaml = {
+      --       schemaStore = {
+      --         -- You must disable built-in schemaStore support if you want to use
+      --         -- this plugin and its advanced options like `ignore`.
+      --         enable = false,
+      --         -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+      --         url = "",
+      --       },
+      --       schemas = require('schemastore').yaml.schemas(),
+      --     },
+      --   },
+      -- })
+      -- vim.lsp.enable('yamlls')
     end,
   },
   {
@@ -274,7 +473,7 @@ return {
       },
     },
     opts = {
-      log_level = vim.log.levels.DEBUG,
+      -- log_level = vim.log.levels.DEBUG,
       formatters = {
         biome = {
           require_cwd = true,
