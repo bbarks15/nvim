@@ -1,4 +1,4 @@
--- vim.cmd("autocmd!")
+-- vim.cmd("autocmd!")op
 
 vim.scriptencoding = 'utf-8'
 vim.opt.encoding = 'utf-8'
@@ -61,8 +61,9 @@ vim.cmd('autocmd Filetype cs setlocal tabstop=4 shiftwidth=4')
 vim.cmd('autocmd Filetype json setlocal conceallevel=0')
 
 vim.api.nvim_create_autocmd('TextYankPost', {
+  group = vim.api.nvim_create_augroup('brandon-highlight-yank', { clear = true }),
   callback = function()
-    vim.highlight.on_yank({ timeout = 150 })
+    vim.hl.on_yank()
   end,
 })
 
