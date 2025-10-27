@@ -58,7 +58,8 @@ vim.cmd([[let &t_Ce = "\e[4:0m"]])
 vim.cmd([[let &fcs="eob: "]])
 
 vim.cmd('autocmd Filetype cs setlocal tabstop=4 shiftwidth=4')
-vim.cmd('autocmd Filetype json setlocal conceallevel=0')
+vim.cmd('autocmd Filetype markdown setlocal conceallevel=1')
+vim.cmd('autocmd Filetype markdown_inline setlocal conceallevel=1')
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('brandon-highlight-yank', { clear = true }),
@@ -75,7 +76,14 @@ vim.opt.pumblend = 5
 vim.opt.background = 'light'
 
 -- Set other options
--- vim.cmd.colorscheme "catppuccin"
+vim.cmd.colorscheme "catppuccin"
+vim.cmd.colorscheme "catppuccin"
+-- vim.cmd.colorscheme "onedark"
+-- vim.cmd.colorscheme "citruszest"
 -- vim.cmd.colorscheme "citruszest"
 -- vim.cmd.colorscheme "rose-pine"
-vim.cmd.colorscheme "tokyonight-night"
+-- vim.cmd.colorscheme "tokyonight-day"
+-- vim.cmd.colorscheme "tokyonight-day"
+-- vim.cmd.colorscheme "ayu-dark"
+-- vim.cmd.colorscheme "kanagawa"
+-- vim.cmd.colorscheme "oxocarbon"

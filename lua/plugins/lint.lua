@@ -11,7 +11,7 @@ return {
       sources = {
         -- null_ls.builtins.diagnostics.ruff,
         -- null_ls.builtins.diagnostics.mypy,
-        null_ls.builtins.diagnostics.sqlfluff,
+        -- null_ls.builtins.diagnostics.sqlfluff,
         require("none-ls.diagnostics.eslint_d").with({
           condition = function()
             local bufname = vim.api.nvim_buf_get_name(0)

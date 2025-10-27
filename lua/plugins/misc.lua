@@ -1,25 +1,18 @@
 -- Miscelaneous fun stuff
 return {
   {
-    "echasnovski/mini.comment",
-    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
-    opts = {
-      custom_commentstring = function()
-        return require('ts_context_commentstring.internal').calculate_commentstring() or vim.bo.commentstring
-      end,
-    },
-  },
-  {
     "echasnovski/mini.surround",
     opts = {},
   },
   {
     "echasnovski/mini.pairs",
-    opts = {},
-  },
-  {
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      modes = { insert = true, command = true, terminal = false },
+      skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
+      skip_ts = { "string" },
+      skip_unbalanced = true,
+      markdown = true,
+    },
   },
   {
     "rachartier/tiny-devicons-auto-colors.nvim",
@@ -88,6 +81,13 @@ return {
     },
     opts = {},
   },
+  {
+    "hat0uma/csvview.nvim",
+    ---@module "csvview"
+    ---@type CsvView.Options
+    opts = {},
+    cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
+  }
   -- {
   --   "folke/snacks.nvim",
   --   ---@type snacks.Config
@@ -101,4 +101,24 @@ return {
   --     }
   --   }
   -- }
+  -- {
+  --   "m4xshen/hardtime.nvim",
+  --   lazy = false,
+  --   -- enabled = false,
+  --   dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
+  --   opts = {
+  --   --   -- callback = require('notify')
+  --   },
+  --   -- config = function()
+  --   --   require("hardtime").setup({
+  --   --     callback = function(text)
+  --   --       vim.notify(
+  --   --         "FDJSKLFJFLKSJKFLJKLF",
+  --   --         vim.log.levels.WARN,
+  --   --         { title = "dsafasf", }
+  --   --       )
+  --   --     end,
+  --   --   })
+  --   -- end
+  -- },
 }

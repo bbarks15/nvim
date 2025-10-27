@@ -22,15 +22,24 @@ return {
       require("mason").setup()
       require("mason-lspconfig").setup({
         ensure_installed = {
+          "astro",
+          "biome",
+          "cssls",
+          "gopls",
+          "html",
+          "jsonls",
           "lua_ls",
-          'jsonls',
-          "yamlls",
+          "lua_ls",
           "marksman",
-          'tailwindcss',
-          'cssls',
+          "pyright",
+          "svelte",
+          "terraformls",
+          "tflint",
           "ts_ls",
-          'html',
-          'svelte',
+          "vtsls",
+          "vue_ls",
+          "yamlls",
+          "zls",
         },
         automatic_installation = true,
         automatic_enable = false,
@@ -41,11 +50,12 @@ return {
 
       -- Turn on LSP status information
       require("fidget").setup({
-        notification = {
-          window = {
-            winblend = 0,
-          }
-        }
+        -- notification = {
+        --   window = {
+        --     normal_hl = "None",
+        --     winblend = 0,
+        --   }
+        -- }
       })
 
       -- Set up cool signs for diagnostics
@@ -62,19 +72,19 @@ return {
 
       -- Diagnostic config
       vim.diagnostic.config({
-        virtual_text = {
-          source = 'if_many',
-          spacing = 2,
-          format = function(diagnostic)
-            local diagnostic_message = {
-              [vim.diagnostic.severity.ERROR] = diagnostic.message,
-              [vim.diagnostic.severity.WARN] = diagnostic.message,
-              [vim.diagnostic.severity.INFO] = diagnostic.message,
-              [vim.diagnostic.severity.HINT] = diagnostic.message,
-            }
-            return diagnostic_message[diagnostic.severity]
-          end,
-        },
+        -- virtual_text = {
+        --   source = 'if_many',
+        --   spacing = 2,
+        --   format = function(diagnostic)
+        --     local diagnostic_message = {
+        --       [vim.diagnostic.severity.ERROR] = diagnostic.message,
+        --       [vim.diagnostic.severity.WARN] = diagnostic.message,
+        --       [vim.diagnostic.severity.INFO] = diagnostic.message,
+        --       [vim.diagnostic.severity.HINT] = diagnostic.message,
+        --     }
+        --     return diagnostic_message[diagnostic.severity]
+        --   end,
+        -- },
         signs = {
           text = {
             [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
@@ -114,7 +124,7 @@ return {
           -- end
 
           lsp_map("K", function()
-            vim.lsp.buf.hover({ border = "single" })
+            vim.lsp.buf.hover({ border = "rounded" })
           end, bufnr)
 
           lsp_map("gT", vim.lsp.buf.type_definition, bufnr)
@@ -168,7 +178,10 @@ return {
         terraformls = {},
         tflint = {},
         yamlls = {},
-        zls = {},
+        zls = {
+          -- enable_build_on_save = true,
+        },
+        -- copilot = {},
         cssls = {},
         html = {},
         svelte = {},
@@ -181,9 +194,9 @@ return {
             "typescript",
             "typescriptreact",
             "typescript.tsx",
+            "vue"
           },
           settings = {
-            complete_function_calls = true,
             vtsls = {
               enableMoveToFileCodeAction = true,
               autoUseWorkspaceTsdk = true,
@@ -192,20 +205,42 @@ return {
                   enableServerSideFuzzyMatch = true,
                 },
               },
+              tsserver = {
+                -- globalPlugins = {
+                --   {
+                --     name = '@vue/typescript-plugin',
+                --     location = vim.fn.expand '$MASON/packages' ..
+                --         '/vue-language-server' .. '/node_modules/@vue/language-server',
+                --     languages = { 'vue' },
+                --     configNamespace = 'typescript',
+                --   }
+                -- },
+              },
             },
             typescript = {
               updateImportsOnFileMove = { enabled = "always" },
-              suggest = {
-                completeFunctionCalls = true,
-              },
+              preferences = {
+                importModuleSpecifier = "non-relative"
+              }
             },
             javascript = {
               updateImportsOnFileMove = { enabled = "always" },
-              suggest = {
-                completeFunctionCalls = true,
-              },
+              preferences = {
+                importModuleSpecifier = "project-relative"
+              }
             },
           },
+        },
+        vue_ls = {
+          -- filetypes = { 'vue' },
+          -- init_options = {
+          --   -- typescript = {
+          --   --   tsdk = vim.fn.stdpath 'data' .. '/mason/packages/typescript-language-server/node_modules/typescript/lib',
+          --   -- },
+          --   vue = {
+          --     hybridMode = false,
+          --   },
+          -- },
         },
         lua_ls = {
           settings = {
@@ -223,17 +258,6 @@ return {
                   [vim.fn.stdpath("config") .. "/lua"] = true,
                 },
               },
-            },
-          },
-        },
-        volar = {
-          filetypes = { 'vue' },
-          init_options = {
-            typescript = {
-              tsdk = vim.fn.stdpath 'data' .. '/mason/packages/typescript-language-server/node_modules/typescript/lib',
-            },
-            vue = {
-              hybridMode = false,
             },
           },
         },
@@ -312,7 +336,7 @@ return {
         },
       },
       formatters_by_ft = {
-        ["sql"] = { "sqlfluff" },
+        ["sql"] = { "sleek" },
         ["javascript"] = { "biome", "prettierd", "prettier", stop_after_first = true },
         ["javascriptreact"] = { "biome", "prettierd", "prettier", stop_after_first = true },
         ["typescript"] = { "biome", "prettierd", "prettier", stop_after_first = true },

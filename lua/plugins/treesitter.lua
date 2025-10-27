@@ -4,23 +4,21 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      -- "nvim-treesitter/nvim-treesitter-context",
-      "JoosepAlviste/nvim-ts-context-commentstring",
-      "windwp/nvim-ts-autotag",
-    },
     config = function()
       require("nvim-treesitter.configs").setup({
         -- Add languages to be installed here that you want installed for treesitter
         ensure_installed = {
           "css",
+          "elixir",
+          "hcl",
           "html",
           "javascript",
           "json",
           "lua",
+          "go",
           "python",
           "rust",
+          "terraform",
           "tsx",
           "typescript",
           "vim",
@@ -44,24 +42,30 @@ return {
             scope_incremental = "<c-s>",
           },
         },
-        -- autotag = {
-        --   enable = true,
-        --   enable_close_on_slash = false,
-        -- },
-        -- context_commentstring = {
-        --   enable = true,
-        --   enable_autocmd = false,
-        -- },
       })
-
-      -- require('ts_context_commentstring').setup {
-      --   enable_autocmd = false
-      -- }
-      --
-      require('nvim-ts-autotag').setup()
 
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
       parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
     end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    opts = {}
+  },
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    config = function()
+      require('ts_context_commentstring').setup {
+        enable_autocmd = false,
+      }
+
+      local get_option = vim.filetype.get_option
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.filetype.get_option = function(filetype, option)
+        return option == "commentstring"
+            and require("ts_context_commentstring.internal").calculate_commentstring()
+            or get_option(filetype, option)
+      end
+    end
   },
 }

@@ -27,7 +27,19 @@ return {
       "LazyGitFilterCurrentFile",
     },
     dependencies = { "nvim-lua/plenary.nvim", },
-    keys = { { "<leader>G", "<cmd>LazyGit<cr>", desc = "LazyGit" } }
+    keys = { { "<leader>G", "<cmd>LazyGit<cr>", desc = "LazyGit" } },
+    lazy = true
   },
-  { "tpope/vim-fugitive" }
+  { "tpope/vim-fugitive" },
+  {
+    "sindrets/diffview.nvim",
+    opts = {
+      view = {
+        merge_tool = {
+          -- Config for conflicted files in diff views during a merge or rebase.
+          layout = "diff3_mixed",
+        },
+      }
+    }
+  }
 }
