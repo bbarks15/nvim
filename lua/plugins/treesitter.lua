@@ -28,11 +28,10 @@ return {
         },
         highlight = {
           enable = true,
-          additional_vim_regex_highlighting = false,
+          disable = { "markdown" },
         },
         indent = {
-          enable = true,
-          disable = { "python" }
+          enable = false,
         },
         incremental_selection = {
           enable = true,
@@ -43,9 +42,6 @@ return {
           },
         },
       })
-
-      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-      parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
     end,
   },
   {

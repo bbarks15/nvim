@@ -16,8 +16,7 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    -- lazy = true,
-    priority = 1000,
+    lazy = true,
     opts = {
       flavour = "latte",
       highlight_overrides = {
@@ -44,6 +43,7 @@ return {
   },
   {
     "rebelot/kanagawa.nvim",
+    lazy = true,
     opts = {
       transparent = true
     }
@@ -53,7 +53,7 @@ return {
     lazy = false,
     priority = 1000,
     opts = {
-      style = "day",
+      style = "night",
       day_brightness = 0.35
       -- transparent = true,
       -- on_highlights = function(hl, c)
@@ -65,7 +65,7 @@ return {
   },
   {
     "nyoom-engineering/oxocarbon.nvim",
-    -- lazy = true,
+    lazy = true,
   },
   {
     "zootedb0t/citruszest.nvim",
@@ -78,8 +78,7 @@ return {
   },
   {
     "dgox16/oldworld.nvim",
-    -- lazy = true,
-    -- priority = 1000,
+    lazy = true,
   },
   {
     "oxfist/night-owl.nvim",
@@ -91,7 +90,7 @@ return {
     -- 	vim.cmd.colorscheme("night-owl")
     -- end,
   },
-  'Yazeed1s/oh-lucy.nvim',
-  "navarasu/onedark.nvim",
+  { 'Yazeed1s/oh-lucy.nvim', lazy = true },
+  { "navarasu/onedark.nvim", lazy = true },
   -- "olimorris/onedarkpro.nvim",
 }

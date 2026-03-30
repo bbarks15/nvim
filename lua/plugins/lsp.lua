@@ -6,7 +6,6 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "j-hui/fidget.nvim",
-      "folke/neodev.nvim",
       "stevearc/conform.nvim",
       "elixir-tools/elixir-tools.nvim",
       {
@@ -16,8 +15,6 @@ return {
       }
     },
     config = function()
-      -- Set up Mason before anything else
-
       -- vim.lsp.set_log_level("debug")
       require("mason").setup()
       require("mason-lspconfig").setup({
@@ -29,24 +26,17 @@ return {
           "html",
           "jsonls",
           "lua_ls",
-          "lua_ls",
           "marksman",
           "pyright",
           "svelte",
           "terraformls",
           "tflint",
-          "ts_ls",
           "vtsls",
-          "vue_ls",
           "yamlls",
           "zls",
         },
-        automatic_installation = true,
         automatic_enable = false,
       })
-
-      -- Neodev setup before LSP config
-      require("neodev").setup()
 
       -- Turn on LSP status information
       require("fidget").setup({
@@ -61,30 +51,17 @@ return {
       -- Set up cool signs for diagnostics
       local icons = require("core.icons")
 
-      require("helpers.keys").map(
-        { "n", "x", "v" },
-        "<leader>vd",
-        function()
-          vim.diagnostic.open_float({ border = "single" })
-        end,
-        "Show diagnostic"
-      )
+      -- require("helpers.keys").map(
+      --   { "n", "x", "v" },
+      --   "<leader>vd",
+      --   function()
+      --     vim.diagnostic.open_float({ border = "single" })
+      --   end,
+      --   "Show diagnostic"
+      -- )
 
       -- Diagnostic config
       vim.diagnostic.config({
-        -- virtual_text = {
-        --   source = 'if_many',
-        --   spacing = 2,
-        --   format = function(diagnostic)
-        --     local diagnostic_message = {
-        --       [vim.diagnostic.severity.ERROR] = diagnostic.message,
-        --       [vim.diagnostic.severity.WARN] = diagnostic.message,
-        --       [vim.diagnostic.severity.INFO] = diagnostic.message,
-        --       [vim.diagnostic.severity.HINT] = diagnostic.message,
-        --     }
-        --     return diagnostic_message[diagnostic.severity]
-        --   end,
-        -- },
         signs = {
           text = {
             [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
@@ -107,63 +84,15 @@ return {
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('brandon-lsp-attach', { clear = true }),
         callback = function(event)
-          local bufnr = event.buf
-          local lsp_map = require("helpers.keys").lsp_map
+          local b = event.buf
 
-          -- local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
-          -- if
-          --     filetype == "typescript"
-          --     or filetype == "typescriptreact"
-          --     or filetype == "typescript.tsx"
-          --     or filetype == "javascript"
-          --     or filetype == "javascriptreact"
-          -- then
-          --   lsp_map("gd", require("typescript-tools.api").go_to_source_definition, bufnr)
-          -- else
-          lsp_map("gd", vim.lsp.buf.definition, bufnr)
-          -- end
-
-          lsp_map("K", function()
-            vim.lsp.buf.hover({ border = "rounded" })
-          end, bufnr)
-
-          lsp_map("gT", vim.lsp.buf.type_definition, bufnr)
-          lsp_map("gD", vim.lsp.buf.declaration, bufnr)
-          lsp_map("gi", vim.lsp.buf.implementation, bufnr)
-          lsp_map("gr", vim.lsp.buf.references, bufnr)
-
-          lsp_map("<leader>cs", function()
-            vim.lsp.buf.signature_help({ border = "single" })
-          end, bufnr)
-
-          lsp_map("<leader>cr", vim.lsp.buf.rename, bufnr)
-          lsp_map("<leader>cl", vim.lsp.codelens.run, bufnr)
-
-          vim.keymap.set({ "n", "x", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr })
-
-          lsp_map("<leader>i", vim.lsp.buf.incoming_calls, bufnr)
-          lsp_map("<leader>o", vim.lsp.buf.outgoing_calls, bufnr)
-
-          -- local map = function(keys, func, desc, mode)
-          --   mode = mode or 'n'
-          --   vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-          -- end
-          --
-          -- map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
-          -- map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
-          -- map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-          -- map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-          -- map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-          -- map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-          -- map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
-          -- map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
-          -- map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
-          -- This may be unwanted, since they displace some of your code
-          -- if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-          --   map('<leader>th', function()
-          --     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-          --   end, '[T]oggle Inlay [H]ints')
-          -- end
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = b, desc = "Go to definition" })
+          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = b, desc = "Go to declaration" })
+          vim.keymap.set("n", "<leader>i", vim.lsp.buf.incoming_calls, { buffer = b, desc = "Incoming calls" })
+          vim.keymap.set("n", "<leader>o", vim.lsp.buf.outgoing_calls, { buffer = b, desc = "Outgoing calls" })
+          vim.keymap.set("n", "K", function()
+            vim.lsp.buf.hover({ border = "single" })
+          end, { buffer = b, desc = "Hover" })
         end,
       })
 
@@ -177,7 +106,6 @@ return {
         pyright = {},
         terraformls = {},
         tflint = {},
-        yamlls = {},
         zls = {
           -- enable_build_on_save = true,
         },
@@ -205,17 +133,7 @@ return {
                   enableServerSideFuzzyMatch = true,
                 },
               },
-              tsserver = {
-                -- globalPlugins = {
-                --   {
-                --     name = '@vue/typescript-plugin',
-                --     location = vim.fn.expand '$MASON/packages' ..
-                --         '/vue-language-server' .. '/node_modules/@vue/language-server',
-                --     languages = { 'vue' },
-                --     configNamespace = 'typescript',
-                --   }
-                -- },
-              },
+              -- tsserver = {},
             },
             typescript = {
               updateImportsOnFileMove = { enabled = "always" },
@@ -231,32 +149,11 @@ return {
             },
           },
         },
-        vue_ls = {
-          -- filetypes = { 'vue' },
-          -- init_options = {
-          --   -- typescript = {
-          --   --   tsdk = vim.fn.stdpath 'data' .. '/mason/packages/typescript-language-server/node_modules/typescript/lib',
-          --   -- },
-          --   vue = {
-          --     hybridMode = false,
-          --   },
-          -- },
-        },
         lua_ls = {
           settings = {
             Lua = {
               completion = {
                 callSnippet = "Replace",
-              },
-              diagnostics = {
-                globals = { "vim" },
-              },
-              workspace = {
-                checkThirdParty = false,
-                library = {
-                  [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                  [vim.fn.stdpath("config") .. "/lua"] = true,
-                },
               },
             },
           },
@@ -272,7 +169,7 @@ return {
             },
           },
         },
-        yammls = {
+        yamlls = {
           settings = {
             yaml = {
               schemaStore = {
@@ -316,7 +213,7 @@ return {
       {
         "<leader>ff",
         function()
-          require("conform").format({ async = true, lsp_fallback = true })
+          require("conform").format({ async = true, lsp_format = "fallback" })
         end,
         desc = "Format"
       },
@@ -359,5 +256,13 @@ return {
       },
     }
   },
-  { 'dmmulroy/ts-error-translator.nvim', opts = {} },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
+  },
 }

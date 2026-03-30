@@ -4,16 +4,14 @@ return {
     "lewis6991/gitsigns.nvim",
     opts = {
       on_attach = function(_)
-        local gs = package.loaded.gitsigns
+        local gs = require('gitsigns')
 
-        local map = require("helpers.keys").map
-
-        map("n", "<leader>tb", gs.toggle_current_line_blame)
-        map("n", "<leader>gb", function()
+        vim.keymap.set("n", "<leader>tb", gs.toggle_current_line_blame, { silent = true, desc = "Toggle line blame" })
+        vim.keymap.set("n", "<leader>gb", function()
           gs.blame_line({ full = true })
-        end)
-        map("n", "<leader>gp", gs.preview_hunk)
-        map("n", "<leader>gu", gs.reset_hunk)
+        end, { silent = true, desc = "Blame line (full)" })
+        vim.keymap.set("n", "<leader>gp", gs.preview_hunk, { silent = true, desc = "Preview hunk" })
+        vim.keymap.set("n", "<leader>gu", gs.reset_hunk, { silent = true, desc = "Reset hunk" })
       end,
     },
   },
@@ -28,7 +26,6 @@ return {
     },
     dependencies = { "nvim-lua/plenary.nvim", },
     keys = { { "<leader>G", "<cmd>LazyGit<cr>", desc = "LazyGit" } },
-    lazy = true
   },
   { "tpope/vim-fugitive" },
   {

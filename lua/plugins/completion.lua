@@ -7,13 +7,11 @@ return {
       'rafamadriz/friendly-snippets',
       "L3MON4D3/LuaSnip",
     },
-    version = '*',
-    -- build = 'rustup run nightly cargo build --release',
-    ---@module 'blink.cmp
+    version = '1.*',
+    ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
       appearance = {
-        use_nvim_cmp_as_default = true,
         kind_icons = require("core.icons").kind
       },
       keymap = {
@@ -23,15 +21,20 @@ return {
       },
       sources = {
         default = {
+          'lazydev',
           'lsp',
           'path',
-          -- 'snippets',
         },
         per_filetype = {
           sql = { 'snippets', 'dadbod' },
         },
         providers = {
           dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            score_offset = 100,
+          },
         },
       },
       completion = {
@@ -46,9 +49,6 @@ return {
           draw = {
             columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
           },
-          -- auto_show = function(ctx)
-          --   return ctx.mode ~= "cmdline" or not vim.tbl_contains({ '/', '?' }, vim.fn.getcmdtype())
-          -- end,
         },
         documentation = {
           auto_show = true,
@@ -59,7 +59,9 @@ return {
           }
         },
       },
+      fuzzy = { implementation = "prefer_rust_with_warning" },
     },
+    opts_extend = { "sources.default" },
   },
   {
     "L3MON4D3/LuaSnip",
@@ -97,8 +99,6 @@ return {
 
       vim.snippet.stop = ls.unlink_current
 
-      vim.snippet.stop = ls.unlink_current
-
       ls.setup({
         history = true,
         updateevents = "TextChanged,TextChangedI",
@@ -118,17 +118,17 @@ return {
 
       vim.keymap.set({ "i", "s" }, "<c-j>", function()
         return vim.snippet.active { direction = 1 } and vim.snippet.jump(1)
-      end, { silent = true })
+      end, { silent = true, desc = "Snippet jump forward" })
 
       vim.keymap.set({ "i", "s" }, "<c-k>", function()
         return vim.snippet.active { direction = -1 } and vim.snippet.jump(-1)
-      end, { silent = true })
+      end, { silent = true, desc = "Snippet jump backward" })
 
       vim.keymap.set("i", "<c-l>", function()
         if ls.choice_active() then
           ls.change_choice(1)
         end
-      end)
+      end, { silent = true, desc = "Snippet next choice" })
     end
-  }
+  },
 }

@@ -1,16 +1,11 @@
-local map = require("helpers.keys").map
+vim.keymap.set('n', 'x', '"_x', { silent = true, desc = "Delete char without yank" })
 
-map('n', 'x', '"_x')
+vim.keymap.set('x', '<leader>p', '"_dP', { silent = true, desc = "Paste without yank" })
 
-map('x', '<leader>p', '"_dP')
+vim.keymap.set({ 'n', 'v' }, '<leader>d', '"_d', { silent = true, desc = "Delete without yank" })
 
-map({'n', 'v'}, '<leader>y', '"+y')
-map('n', '<leader>Y', 'gg"+yG')
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { silent = true, desc = "Move selection down" })
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { silent = true, desc = "Move selection up" })
 
-map({'n','v'}, '<leader>d', '"_d')
-
-map("v", "J", ":m '>+1<CR>gv=gv")
-map("v", "K", ":m '<-2<CR>gv=gv")
-
-map("n", "<C-d>", "<C-d>zz")
-map("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { silent = true, desc = "Scroll down and center" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { silent = true, desc = "Scroll up and center" })

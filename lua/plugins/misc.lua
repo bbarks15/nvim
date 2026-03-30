@@ -30,45 +30,43 @@ return {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
+    keys = {
+      { "<leader>m", function() require("harpoon"):list():add() end,     desc = "Harpoon add" },
+      {
+        "<C-e>",
+        function()
+          local h = require("harpoon")
+          h.ui:toggle_quick_menu(h:list())
+        end,
+        desc = "Harpoon menu"
+      },
+      { "<leader>h", function() require("harpoon"):list():select(1) end, desc = "Harpoon 1" },
+      { "<leader>j", function() require("harpoon"):list():select(2) end, desc = "Harpoon 2" },
+      { "<leader>k", function() require("harpoon"):list():select(3) end, desc = "Harpoon 3" },
+      { "<leader>l", function() require("harpoon"):list():select(4) end, desc = "Harpoon 4" },
+      { "<leader>1", function() require("harpoon"):list():select(1) end, desc = "Harpoon 1" },
+      { "<leader>2", function() require("harpoon"):list():select(2) end, desc = "Harpoon 2" },
+      { "<leader>3", function() require("harpoon"):list():select(3) end, desc = "Harpoon 3" },
+      { "<leader>4", function() require("harpoon"):list():select(4) end, desc = "Harpoon 4" },
+      { "<leader>5", function() require("harpoon"):list():select(5) end, desc = "Harpoon 5" },
+      { "<leader>6", function() require("harpoon"):list():select(6) end, desc = "Harpoon 6" },
+      { "<leader>7", function() require("harpoon"):list():select(7) end, desc = "Harpoon 7" },
+      { "<leader>8", function() require("harpoon"):list():select(8) end, desc = "Harpoon 8" },
+      { "<leader>9", function() require("harpoon"):list():select(9) end, desc = "Harpoon 9" },
+    },
     config = function()
-      local harpoon = require("harpoon")
-
-      harpoon:setup()
-
-      local map = require("helpers.keys").map
-
-      map("n", "<leader>m", function() harpoon:list():add() end)
-      map("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
-
-      map("n", "<leader>h", function() harpoon:list():select(1) end)
-      map("n", "<leader>j", function() harpoon:list():select(2) end)
-      map("n", "<leader>k", function() harpoon:list():select(3) end)
-      map("n", "<leader>l", function() harpoon:list():select(4) end)
-
-      for i = 1, 9 do
-        vim.keymap.set("n", string.format("<leader>%s", i), function()
-          harpoon:list():select(i)
-        end)
-      end
+      require("harpoon"):setup()
     end,
   },
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
-    keys = { "<leader>ti" },
-    config = function()
-      ---@module "ibl"
-      ---@type ibl.config
-      local opts = {
-        enabled = false,
-      }
-
-      require("ibl").setup(opts)
-
-      vim.keymap.set("n", "<leader>ti", function()
-        vim.cmd("IBLToggle")
-      end)
-    end,
+    keys = {
+      { "<leader>ti", "<cmd>IBLToggle<cr>", desc = "Toggle indent lines" },
+    },
+    opts = {
+      enabled = false,
+    },
   },
   "almo7aya/openingh.nvim",
   {
@@ -87,38 +85,15 @@ return {
     ---@type CsvView.Options
     opts = {},
     cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
+  },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    enabled = false,
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {},
   }
-  -- {
-  --   "folke/snacks.nvim",
-  --   ---@type snacks.Config
-  --   opts = {
-  --     lazygit = {
-  --       win = {
-  --         style = {
-  --           border = "rounded"
-  --         }
-  --       }
-  --     }
-  --   }
-  -- }
-  -- {
-  --   "m4xshen/hardtime.nvim",
-  --   lazy = false,
-  --   -- enabled = false,
-  --   dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
-  --   opts = {
-  --   --   -- callback = require('notify')
-  --   },
-  --   -- config = function()
-  --   --   require("hardtime").setup({
-  --   --     callback = function(text)
-  --   --       vim.notify(
-  --   --         "FDJSKLFJFLKSJKFLJKLF",
-  --   --         vim.log.levels.WARN,
-  --   --         { title = "dsafasf", }
-  --   --       )
-  --   --     end,
-  --   --   })
-  --   -- end
-  -- },
 }

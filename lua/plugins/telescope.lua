@@ -11,9 +11,41 @@ return {
       },
       "benfowler/telescope-luasnip.nvim",
     },
+    keys = {
+      { "<C-P>",            function() require("telescope.builtin").find_files() end,                    desc = "Find files" },
+      { "<leader>P",        function() require("telescope.builtin").commands() end,                      desc = "Commands" },
+      { "<leader>F",        function() require("telescope.builtin").live_grep() end,                     desc = "Live grep" },
+      { "<leader>r",        function() require("telescope.builtin").oldfiles() end,                      desc = "Recent files" },
+      { "<leader>b",        function() require("telescope.builtin").buffers() end,                       desc = "Buffers" },
+      { "<leader><leader>", function() require("telescope.builtin").resume() end,                        desc = "Resume" },
+      { "<leader>s",        function() require("telescope.builtin").lsp_document_symbols() end,          desc = "Document symbols" },
+      { "<leader>S",        function() require("telescope.builtin").lsp_dynamic_workspace_symbols() end, desc = "Workspace symbols" },
+    },
     config = function()
-      local function get_pickers(a)
-        return {
+      local actions = require("telescope.actions")
+      require("telescope").setup({
+        defaults = {
+          mappings = {
+            n = { ["q"] = actions.close },
+          },
+          file_ignore_patterns = {
+            "^.git/",
+            "^obj/",
+            "^_build/",
+            "^node_modules/",
+            "^web/node_modules/",
+            "^web/dist/",
+            "^apps/web/dist/",
+            "^.next/",
+            "^.idea/",
+            "^.vscode/",
+            "^target/",
+            "^deps/",
+            "^.elixir_ls/",
+            "^.elixir-tools/",
+            ".svg$" },
+        },
+        pickers = {
           find_files = {
             theme = "dropdown",
             hidden = true,
@@ -35,8 +67,8 @@ return {
             previewer = false,
             initial_mode = "normal",
             mappings = {
-              i = { ["<C-d>"] = a.delete_buffer },
-              n = { ["dd"] = a.delete_buffer },
+              i = { ["<C-d>"] = actions.delete_buffer },
+              n = { ["dd"] = actions.delete_buffer },
             },
           },
           git_files = {
@@ -45,33 +77,7 @@ return {
             previewer = false,
             show_untracked = true,
           },
-        }
-      end
-
-      local actions = require("telescope.actions")
-      require("telescope").setup({
-        defaults = {
-          mappings = {
-            n = { ["q"] = actions.close },
-          },
-          pickers = get_pickers(actions),
-          file_ignore_patterns = {
-            ".git/",
-            "^obj/",
-            "^_build/",
-            "^node_modules/",
-            "^web/node_modules/",
-            "^web/dist/",
-            "^.next/",
-            "^.idea/",
-            "^.vscode/",
-            "^target/",
-            "^deps/",
-            "^.elixir_ls/",
-            "^.elixir-tools/",
-            ".svg$" },
         },
-        pickers = get_pickers(actions),
         extensions = {},
       })
 
@@ -79,18 +85,6 @@ return {
 
       -- Enable telescope fzf native, if installed
       pcall(require("telescope").load_extension, "fzf")
-
-      local map = require("helpers.keys").map
-      local builtin = require("telescope.builtin")
-
-      map("n", "<C-P>", builtin.git_files)
-      map("n", "<leader>P", builtin.commands)
-      map("n", "<leader>F", builtin.live_grep)
-      map("n", "<leader>r", builtin.oldfiles)
-      map("n", "<leader>b", builtin.buffers)
-      map("n", "<leader><leader>", builtin.resume)
-      map("n", "<leader>s", builtin.lsp_document_symbols)
-      map("n", "<leader>S", builtin.lsp_dynamic_workspace_symbols)
     end,
   },
 }
