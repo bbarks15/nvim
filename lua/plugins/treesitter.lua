@@ -2,66 +2,49 @@
 -- Highlight, edit, and navigate code
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
+    'nvim-treesitter/nvim-treesitter',
+    lazy = false,
+    build = ':TSUpdate',
     config = function()
-      require("nvim-treesitter.configs").setup({
-        -- Add languages to be installed here that you want installed for treesitter
-        ensure_installed = {
-          "css",
-          "elixir",
-          "hcl",
-          "html",
-          "javascript",
-          "json",
-          "lua",
-          "go",
-          "python",
-          "rust",
-          "terraform",
-          "tsx",
-          "typescript",
-          "vim",
-          "vimdoc",
-          "vue",
-          "yaml",
-        },
-        highlight = {
-          enable = true,
-          disable = { "markdown" },
-        },
-        indent = {
-          enable = false,
-        },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "<c-space>",
-            node_incremental = "<c-space>",
-            scope_incremental = "<c-s>",
-          },
-        },
+      local treesitter_parsers = {
+        "astro",
+        "bash",
+        "css",
+        "dockerfile",
+        "elixir",
+        "gitcommit",
+        "go",
+        "hcl",
+        "html",
+        "javascript",
+        "json",
+        "lua",
+        "markdown",
+        "python",
+        "regex",
+        "rust",
+        "sql",
+        "svelte",
+        "terraform",
+        "toml",
+        "tsx",
+        "typescript",
+        "vim",
+        "vimdoc",
+        "yaml",
+        "zig",
+      }
+      require("nvim-treesitter").install(treesitter_parsers)
+
+      local treesitter_filetypes =
+          vim.iter(treesitter_parsers):map(vim.treesitter.language.get_filetypes):flatten():totable()
+
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = treesitter_filetypes,
+        callback = function()
+          vim.treesitter.start()
+        end,
       })
     end,
-  },
-  {
-    "windwp/nvim-ts-autotag",
-    opts = {}
-  },
-  {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    config = function()
-      require('ts_context_commentstring').setup {
-        enable_autocmd = false,
-      }
-
-      local get_option = vim.filetype.get_option
-      ---@diagnostic disable-next-line: duplicate-set-field
-      vim.filetype.get_option = function(filetype, option)
-        return option == "commentstring"
-            and require("ts_context_commentstring.internal").calculate_commentstring()
-            or get_option(filetype, option)
-      end
-    end
-  },
+  }
 }

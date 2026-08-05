@@ -21,20 +21,8 @@ return {
       },
       sources = {
         default = {
-          'lazydev',
           'lsp',
           'path',
-        },
-        per_filetype = {
-          sql = { 'snippets', 'dadbod' },
-        },
-        providers = {
-          dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
-          lazydev = {
-            name = "LazyDev",
-            module = "lazydev.integrations.blink",
-            score_offset = 100,
-          },
         },
       },
       completion = {
@@ -46,6 +34,7 @@ return {
         menu = {
           border = 'rounded',
           winhighlight = 'Normal:Normal,FloatBorder:Normal',
+          max_height = 10,
           draw = {
             columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
           },
@@ -59,7 +48,12 @@ return {
           }
         },
       },
-      fuzzy = { implementation = "prefer_rust_with_warning" },
+      fuzzy = {
+        implementation = "prefer_rust_with_warning",
+        frecency = { enabled = false },
+        use_proximity = false,
+        sorts = { "exact", "score", "sort_text", "label" },
+      },
     },
     opts_extend = { "sources.default" },
   },

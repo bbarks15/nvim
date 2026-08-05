@@ -15,14 +15,6 @@ return {
     },
   },
   {
-    "rachartier/tiny-devicons-auto-colors.nvim",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons"
-    },
-    event = "VeryLazy",
-    config = true
-  },
-  {
     "kevinhwang91/nvim-bqf",
     opts = { preview = { winblend = 0 } },
   },
@@ -89,9 +81,7 @@ return {
   {
     'MeanderingProgrammer/render-markdown.nvim',
     enabled = false,
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {},

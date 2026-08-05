@@ -1,23 +1,21 @@
 return {
   {
     'dmtrKovalenko/fff.nvim',
-    enabled = false,
+    enabled = true,
     build = function()
       -- this will download prebuild binary or try to use existing rustup toolchain to build from source
       -- (if you are using lazy you can use gb for rebuilding a plugin if needed)
       require("fff.download").download_or_build_binary()
     end,
     opts = {
-      debug = {
-        enabled = true, -- we expect your collaboration at least during the beta
-      },
+      debug = {},
       preview = {
         enabled = false,
       },
       layout = {
-        -- height = 0.5,
-        -- width = 0.5,
-        -- prompt_position = 'top',
+        height = 0.5,
+        width = 0.5,
+        prompt_position = 'top',
         -- preview_position = 'right',
         -- preview_size = 0.5,
       },
