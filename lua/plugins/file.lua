@@ -2,7 +2,10 @@ return {
   ---@type LazySpec
   {
     "mikavilpas/yazi.nvim",
-    event = "VeryLazy",
+    version = "*",
+    dependencies = {
+      { "nvim-lua/plenary.nvim", lazy = true },
+    },
     keys = {
       -- 👇 in this section, choose your own keymappings!
       {

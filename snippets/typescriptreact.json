@@ -1,0 +1,26 @@
+{
+  "Effect.gen": {
+    "prefix": "egen",
+    "body": ["Effect.gen(function* () {", "\t$0", "})"]
+  },
+  "Effect.fn": {
+    "prefix": "efn",
+    "body": ["Effect.fn(\"${1:name}\")(function* ($2) {", "\t$0", "})"]
+  },
+  "React component": {
+    "prefix": "rc",
+    "body": [
+      "interface ${1:COMPONENT}Props {",
+      "",
+      "}",
+      "",
+      "const $1: React.FC<$1Props> = ({  }) => {",
+      "\treturn (",
+      "\t\t<div>",
+      "\t\t\t$0",
+      "\t\t</div>",
+      "\t)",
+      "}"
+    ]
+  }
+}

@@ -1,11 +1,20 @@
 -- Miscelaneous fun stuff
 return {
   {
-    "echasnovski/mini.surround",
+    "nvim-mini/mini.surround",
+    keys = {
+      { "sa", mode = { "n", "x" }, desc = "Add surrounding" },
+      { "sd", desc = "Delete surrounding" },
+      { "sr", desc = "Replace surrounding" },
+      { "sf", desc = "Find surrounding (right)" },
+      { "sF", desc = "Find surrounding (left)" },
+      { "sh", desc = "Highlight surrounding" },
+    },
     opts = {},
   },
   {
-    "echasnovski/mini.pairs",
+    "nvim-mini/mini.pairs",
+    event = { "InsertEnter", "CmdlineEnter" },
     opts = {
       modes = { insert = true, command = true, terminal = false },
       skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
@@ -16,6 +25,7 @@ return {
   },
   {
     "kevinhwang91/nvim-bqf",
+    ft = "qf",
     opts = { preview = { winblend = 0 } },
   },
   {
@@ -51,17 +61,6 @@ return {
     end,
   },
   {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    keys = {
-      { "<leader>ti", "<cmd>IBLToggle<cr>", desc = "Toggle indent lines" },
-    },
-    opts = {
-      enabled = false,
-    },
-  },
-  "almo7aya/openingh.nvim",
-  {
     'MagicDuck/grug-far.nvim',
     keys = {
       {
@@ -78,12 +77,4 @@ return {
     opts = {},
     cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
   },
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    enabled = false,
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {},
-  }
 }

@@ -5,7 +5,6 @@ return {
     lazy = false, -- lazy loading handled internally
     dependencies = {
       'rafamadriz/friendly-snippets',
-      "L3MON4D3/LuaSnip",
     },
     version = '1.*',
     ---@module 'blink.cmp'
@@ -18,11 +17,33 @@ return {
         preset = "default",
         ['<Tab>'] = {},
         ['<S-Tab>'] = {},
+        -- Snippets stay out of the regular menu: expand an exact trigger, otherwise pick from a snippets-only menu
+        ['<C-j>'] = {
+          'snippet_forward',
+          function(cmp)
+            return cmp.show({
+              providers = { 'snippets' },
+              callback = function()
+                local first = cmp.get_items()[1]
+                if first and first.exact then cmp.accept({ index = 1 }) end
+              end,
+            })
+          end,
+        },
+        ['<C-k>'] = { 'snippet_backward', 'fallback' },
       },
       sources = {
         default = {
           'lsp',
           'path',
+        },
+        providers = {
+          snippets = {
+            opts = {
+              extended_filetypes = { typescript = { 'javascript' } },
+              filter_snippets = function(filetype) return filetype ~= 'terraform' end,
+            },
+          },
         },
       },
       completion = {
@@ -32,7 +53,6 @@ return {
           }
         },
         menu = {
-          border = 'rounded',
           winhighlight = 'Normal:Normal,FloatBorder:Normal',
           max_height = 10,
           draw = {
@@ -42,7 +62,6 @@ return {
         documentation = {
           auto_show = true,
           window = {
-            border = 'single',
             winhighlight = 'Normal:Normal,FloatBorder:Normal',
             max_width = 60,
           }
@@ -55,74 +74,5 @@ return {
         sorts = { "exact", "score", "sort_text", "label" },
       },
     },
-    opts_extend = { "sources.default" },
-  },
-  {
-    "L3MON4D3/LuaSnip",
-    build = "make install_jsregexp",
-    dependencies = { "rafamadriz/friendly-snippets" },
-    config = function()
-      local ls = require("luasnip")
-
-      vim.snippet.expand = ls.lsp_expand
-
-      ---@diagnostic disable-next-line: duplicate-set-field
-      vim.snippet.active = function(filter)
-        filter = filter or {}
-        filter.direction = filter.direction or 1
-
-        if filter.direction == 1 then
-          return ls.expand_or_locally_jumpable()
-        else
-          return ls.locally_jumpable(filter.direction)
-        end
-      end
-
-      ---@diagnostic disable-next-line: duplicate-set-field
-      vim.snippet.jump = function(direction)
-        if direction == 1 then
-          if ls.expandable() then
-            return ls.expand_or_jump()
-          else
-            return ls.jumpable(1) and ls.jump(1)
-          end
-        else
-          return ls.jumpable(-1) and ls.jump(-1)
-        end
-      end
-
-      vim.snippet.stop = ls.unlink_current
-
-      ls.setup({
-        history = true,
-        updateevents = "TextChanged,TextChangedI",
-        override_builtin = true,
-      })
-
-      ls.filetype_extend("typescript", { "javascript" })
-
-      require("luasnip.loaders.from_vscode").lazy_load {
-        exclude = { "terraform" },
-      }
-
-      for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/snippets/*.lua", true)) do
-        loadfile(ft_path)()
-      end
-
-
-      vim.keymap.set({ "i", "s" }, "<c-j>", function()
-        return vim.snippet.active { direction = 1 } and vim.snippet.jump(1)
-      end, { silent = true, desc = "Snippet jump forward" })
-
-      vim.keymap.set({ "i", "s" }, "<c-k>", function()
-        return vim.snippet.active { direction = -1 } and vim.snippet.jump(-1)
-      end, { silent = true, desc = "Snippet jump backward" })
-
-      vim.keymap.set("i", "<c-l>", function()
-        if ls.choice_active() then
-          ls.change_choice(1)
-        end
-      end, { silent = true, desc = "Snippet next choice" })
-    end
   },
 }

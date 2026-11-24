@@ -11,7 +11,8 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    lazy = true,
+    lazy = false,
+    priority = 1000,
     opts = {
       transparent_background = true,
       flavour = "latte",
@@ -22,11 +23,10 @@ return {
             CursorLineSign = { bg = "#2a2b3c" },
           }
         end,
-        latte = function(colors)
+        latte = function(_)
           return {
             CursorLineNr = { bg = "#e9ebf1" },
             CursorLineSign = { bg = "#e9ebf1" },
-            -- NormalFloat = { bg = colors.base },
           }
         end,
       },
@@ -46,8 +46,7 @@ return {
   },
   {
     "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
     opts = {
       style = "day",
       -- day_brightness = 0.35,
@@ -65,17 +64,9 @@ return {
     },
   },
   {
-    "nyoom-engineering/oxocarbon.nvim",
-    lazy = true,
-  },
-  {
     "zootedb0t/citruszest.nvim",
     lazy = true,
-    opts = {}
-    -- priority = 1000,
-    -- config = function()
-    --   vim.cmd("colorscheme citruszest")
-    -- end,
+    opts = {},
   },
   {
     "dgox16/oldworld.nvim",
@@ -83,21 +74,13 @@ return {
   },
   {
     "oxfist/night-owl.nvim",
-    lazy = true, -- make sure we load this during startup if it is your main colorscheme
-    -- priority = 1000, -- make sure to load this before all the other start plugins
-    -- config = function()
-    -- 	-- load the colorscheme here
-    -- 	require("night-owl").setup()
-    -- 	vim.cmd.colorscheme("night-owl")
-    -- end,
+    lazy = true,
   },
   { 'Yazeed1s/oh-lucy.nvim', lazy = true },
   { "navarasu/onedark.nvim", lazy = true },
   {
     dir = "/Users/brandon/development/embark.nvim",
-    -- name = "embark",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
     opts = {
       transparent = true,
       on_colors = function(colors)
